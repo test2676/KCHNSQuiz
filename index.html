@@ -14,6 +14,9 @@
     rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  <!-- Firebase SDK (Realtime Database) -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
 
   <style>
     /* Dynamic Theme CSS Variables controlled via Theme Engine */
@@ -2161,6 +2164,59 @@
     </div>
   </div>
 
+  <!-- =========================================
+       FIREBASE SETUP MODAL
+       Shown once when no Firebase config is stored.
+       Teacher fills this in once, it's saved to localStorage.
+  ============================================ -->
+  <div class="modal-overlay" id="firebaseSetupModal" style="z-index:9999;">
+    <div class="modal-card" style="max-width:520px;">
+      <div style="display:flex; align-items:center; gap:1rem; margin-bottom:1.5rem;">
+        <div style="width:48px; height:48px; background:linear-gradient(135deg,#f97316,#ef4444); border-radius:12px; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+          <i class="fa-brands fa-google" style="color:#fff; font-size:1.4rem;"></i>
+        </div>
+        <div>
+          <h3 style="margin:0; font-size:1.2rem;">Connect Firebase for Cross-Device Sync</h3>
+          <p style="margin:0; color:var(--text-muted); font-size:0.82rem;">Paste your Firebase project config below. This is done <strong>once</strong> on any device.</p>
+        </div>
+      </div>
+
+      <div style="background:rgba(249,115,22,0.08); border:1px solid rgba(249,115,22,0.25); border-radius:10px; padding:1rem; margin-bottom:1.25rem; font-size:0.82rem; color:var(--text-muted);">
+        <p style="margin:0 0 0.5rem;"><i class="fa-solid fa-circle-info" style="color:#f97316;"></i> <strong style="color:var(--text-main);">How to get your Firebase config:</strong></p>
+        <ol style="margin:0; padding-left:1.2rem; line-height:1.9;">
+          <li>Go to <strong>console.firebase.google.com</strong> → Create a project (free)</li>
+          <li>In your project: <strong>Build → Realtime Database</strong> → Create database</li>
+          <li>Go to <strong>Project Settings → General</strong> → Scroll to "Your apps" → Add Web App</li>
+          <li>Copy the <code style="background:rgba(0,0,0,0.3); padding:1px 5px; border-radius:4px;">firebaseConfig</code> object and paste it below</li>
+          <li>In Realtime Database Rules, set: <code style="background:rgba(0,0,0,0.3); padding:1px 5px; border-radius:4px;">{"rules":{".read":true,".write":true}}</code></li>
+        </ol>
+      </div>
+
+      <div class="form-group" style="margin-bottom:1rem;">
+        <label for="firebaseConfigInput"><i class="fa-solid fa-code" style="color:var(--accent);"></i> Firebase Config Object (JSON)</label>
+        <textarea id="firebaseConfigInput" class="form-control" rows="8" placeholder='{
+  "apiKey": "AIza...",
+  "authDomain": "your-app.firebaseapp.com",
+  "databaseURL": "https://your-app-default-rtdb.firebaseio.com",
+  "projectId": "your-app",
+  "storageBucket": "your-app.appspot.com",
+  "messagingSenderId": "1234567890",
+  "appId": "1:1234567890:web:abc123"
+}' style="font-family:\'JetBrains Mono\', monospace; font-size:0.78rem; min-height:160px;"></textarea>
+      </div>
+      <div id="firebaseConfigError" style="color:#f87171; font-size:0.82rem; margin-bottom:0.75rem; display:none;"></div>
+
+      <div style="display:flex; gap:0.75rem; justify-content:flex-end; flex-wrap:wrap;">
+        <button class="btn btn-outline" onclick="app.skipFirebaseSetup()">
+          <i class="fa-solid fa-clock-rotate-left"></i> Use Offline (No Sync)
+        </button>
+        <button class="btn btn-primary" onclick="app.saveFirebaseConfig()" style="background:linear-gradient(135deg,#f97316,#ef4444); border:none;">
+          <i class="fa-brands fa-google"></i> Connect &amp; Sync
+        </button>
+      </div>
+    </div>
+  </div>
+
   <!-- Toast Notification System -->
   <div id="toastContainer" class="toast-container"></div>
 
@@ -2229,6 +2285,11 @@
       }
 
       init() {
+        // Try to init Firebase first
+        this.firebaseEnabled = false;
+        this.db = null;
+        this.initFirebase();
+
         this.loadStorage();
         this.applyTheme(this.currentTheme);
         this.populateSectionDropdowns();
@@ -2236,86 +2297,255 @@
         this.updateTeacherUI();
         this.updateUserStatsDisplay();
         this.setupGlobalSecurityListeners();
+
+        // Attach real-time listeners if Firebase is ready
+        if (this.firebaseEnabled) {
+          this.attachFirebaseListeners();
+        }
+        // (Setup modal no longer needed — config is hardcoded)
       }
 
-      loadStorage() {
-        try {
-          // Load Student Name
-          const storedName = localStorage.getItem('kcnhs_student_name');
-          if (storedName) this.studentName = storedName;
+      // ============================================================
+      // FIREBASE REALTIME SYNC LAYER
+      // Replaces localStorage for shared data. Local prefs stay local.
+      // ============================================================
 
-          // Load Sections
-          const storedSections = localStorage.getItem("kcnhs_sections");
-          if (storedSections) {
-            this.sections = JSON.parse(storedSections);
+      initFirebase() {
+        // Hardcoded Firebase config for KCNHS Quiz Hub
+        const FIREBASE_CONFIG = {
+          apiKey: "AIzaSyAt8-63fjmH6DNk9ftBQWil6dZC4AEuu00",
+          authDomain: "kchns-f0eaf.firebaseapp.com",
+          databaseURL: "https://kchns-f0eaf-default-rtdb.firebaseio.com",
+          projectId: "kchns-f0eaf",
+          storageBucket: "kchns-f0eaf.firebasestorage.app",
+          messagingSenderId: "249330924497",
+          appId: "1:249330924497:web:65c5347fa583eb879c3ef0",
+          measurementId: "G-3292RB7T9P"
+        };
+        try {
+          if (!firebase.apps.length) {
+            firebase.initializeApp(FIREBASE_CONFIG);
+          }
+          this.db = firebase.database();
+          this.firebaseEnabled = true;
+          return true;
+        } catch (e) {
+          console.error('Firebase init error:', e);
+          this.firebaseEnabled = false;
+          return false;
+        }
+      }
+
+      saveFirebaseConfig() {
+        const input = document.getElementById('firebaseConfigInput').value.trim();
+        const errEl = document.getElementById('firebaseConfigError');
+        errEl.style.display = 'none';
+        try {
+          const config = JSON.parse(input);
+          if (!config.apiKey || !config.databaseURL) {
+            throw new Error('Missing required fields: apiKey and databaseURL are required.');
+          }
+          localStorage.setItem('kcnhs_firebase_config', JSON.stringify(config));
+          this.closeModal('firebaseSetupModal');
+          this.showToast('Firebase connected! Syncing data now...', 'success');
+          // Re-init and attach listeners
+          if (this.initFirebase()) {
+            this.attachFirebaseListeners();
+          }
+        } catch (e) {
+          errEl.textContent = 'Invalid config: ' + e.message;
+          errEl.style.display = 'block';
+        }
+      }
+
+      skipFirebaseSetup() {
+        localStorage.setItem('kcnhs_firebase_skipped', 'true');
+        this.closeModal('firebaseSetupModal');
+        this.showToast('Running in offline mode. Data is stored locally only.', 'info');
+      }
+
+      showFirebaseSetupIfNeeded() {
+        const hasConfig = localStorage.getItem('kcnhs_firebase_config');
+        const skipped = localStorage.getItem('kcnhs_firebase_skipped');
+        if (!hasConfig && !skipped) {
+          this.openModal('firebaseSetupModal');
+        }
+      }
+
+      attachFirebaseListeners() {
+        if (!this.firebaseEnabled || !this.db) return;
+
+        // Real-time listener for quizzes
+        this.db.ref('kcnhs/quizzes').on('value', (snapshot) => {
+          const data = snapshot.val();
+          this.quizzes = data ? Object.values(data) : [];
+          this.quizzes.sort((a, b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0));
+          this.renderDashboard();
+          if (document.getElementById('teacherView') && document.getElementById('teacherView').classList.contains('active')) {
+            this.renderTeacherQuizList();
+          }
+        });
+
+        // Real-time listener for sections
+        this.db.ref('kcnhs/sections').on('value', (snapshot) => {
+          const data = snapshot.val();
+          if (data) {
+            this.sections = Object.values(data);
           } else {
+            // If no sections in Firebase yet, push defaults
             this.sections = [...DEFAULT_SECTIONS];
             this.saveSectionsToStorage();
           }
-
-          // Load Quizzes
-          const storedQuizzes = localStorage.getItem("mathmaster_quizzes");
-          if (storedQuizzes) {
-            this.quizzes = JSON.parse(storedQuizzes);
-          } else {
-            this.quizzes = [];
-            this.saveQuizzesToStorage();
+          // Validate current section
+          if (!this.sections.some(s => s.id === this.currentStudentSection)) {
+            this.currentStudentSection = this.sections[0] ? this.sections[0].id : 'g10-rizal';
+            localStorage.setItem('kcnhs_current_section', this.currentStudentSection);
           }
-
-          // Load Student Section Preference
-          const storedSec = localStorage.getItem("kcnhs_current_section");
-          if (storedSec && this.sections.some(s => s.id === storedSec)) {
-            this.currentStudentSection = storedSec;
-          } else if (this.sections.length > 0) {
-            this.currentStudentSection = this.sections[0].id;
+          this.populateSectionDropdowns();
+          this.renderDashboard();
+          if (document.getElementById('teacherView') && document.getElementById('teacherView').classList.contains('active')) {
+            this.renderTeacherSectionManager();
           }
+        });
 
-          // Load Theme Preference
-          const storedTheme = localStorage.getItem("kcnhs_current_theme");
-          if (storedTheme) {
-            this.currentTheme = storedTheme;
-          } else {
-            // Pick section theme
-            const secObj = this.sections.find(s => s.id === this.currentStudentSection);
-            if (secObj) this.currentTheme = secObj.theme;
+        // Real-time listener for shared settings (teacher password, etc.)
+        this.db.ref('kcnhs/settings').on('value', (snapshot) => {
+          const data = snapshot.val();
+          if (data) {
+            if (data.teacherPassword) {
+              this.teacherPassword = data.teacherPassword;
+              this.isPasswordChanged = data.teacherPasswordChanged === true;
+            }
           }
+          this.updatePasswordHintVisibility();
+        });
+      }
 
-          // Load Password
-          const storedPass = localStorage.getItem("mathmaster_teacher_pass");
-          if (storedPass) {
-            this.teacherPassword = storedPass;
-            this.isPasswordChanged = true;
-          }
+      loadStorage() {
+        // Always load personal prefs from localStorage (these are device-specific)
+        const storedName = localStorage.getItem('kcnhs_student_name');
+        if (storedName) this.studentName = storedName;
 
-          const passChangedFlag = localStorage.getItem("mathmaster_pass_changed");
-          if (passChangedFlag === "true") {
-            this.isPasswordChanged = true;
-          }
+        const storedSec = localStorage.getItem('kcnhs_current_section');
+        if (storedSec) this.currentStudentSection = storedSec;
 
-          // Load Stats
-          const storedStats = localStorage.getItem("mathmaster_stats");
-          if (storedStats) {
-            this.userStats = JSON.parse(storedStats);
-          }
-        } catch (e) {
-          console.error("Storage error:", e);
-          this.quizzes = [];
+        const storedTheme = localStorage.getItem('kcnhs_current_theme');
+        if (storedTheme) {
+          this.currentTheme = storedTheme;
+        }
+
+        const storedStats = localStorage.getItem('mathmaster_stats');
+        if (storedStats) {
+          try { this.userStats = JSON.parse(storedStats); } catch(e) {}
+        }
+
+        if (this.firebaseEnabled) {
+          // Firebase handles quizzes, sections, and settings — listeners are attached separately
+          // Use defaults until data arrives from Firebase
           this.sections = [...DEFAULT_SECTIONS];
+          this.quizzes = [];
+        } else {
+          // Offline/local fallback — use localStorage for everything
+          try {
+            const storedSections = localStorage.getItem('kcnhs_sections');
+            if (storedSections) {
+              this.sections = JSON.parse(storedSections);
+            } else {
+              this.sections = [...DEFAULT_SECTIONS];
+              this._saveLocalSections();
+            }
+
+            const storedQuizzes = localStorage.getItem('mathmaster_quizzes');
+            if (storedQuizzes) {
+              this.quizzes = JSON.parse(storedQuizzes);
+            } else {
+              this.quizzes = [];
+            }
+
+            // Validate section
+            if (!this.sections.some(s => s.id === this.currentStudentSection) && this.sections.length > 0) {
+              this.currentStudentSection = this.sections[0].id;
+            }
+
+            if (!storedTheme) {
+              const secObj = this.sections.find(s => s.id === this.currentStudentSection);
+              if (secObj) this.currentTheme = secObj.theme;
+            }
+
+            const storedPass = localStorage.getItem('mathmaster_teacher_pass');
+            if (storedPass) {
+              this.teacherPassword = storedPass;
+              this.isPasswordChanged = true;
+            }
+            if (localStorage.getItem('mathmaster_pass_changed') === 'true') {
+              this.isPasswordChanged = true;
+            }
+          } catch (e) {
+            console.error('Local storage error:', e);
+            this.quizzes = [];
+            this.sections = [...DEFAULT_SECTIONS];
+          }
         }
 
         this.updatePasswordHintVisibility();
       }
 
+      // Internal: save sections to localStorage (offline fallback)
+      _saveLocalSections() {
+        localStorage.setItem('kcnhs_sections', JSON.stringify(this.sections));
+      }
+
       saveSectionsToStorage() {
-        localStorage.setItem("kcnhs_sections", JSON.stringify(this.sections));
+        if (this.firebaseEnabled && this.db) {
+          // Convert array to keyed object for Firebase
+          const sectionsObj = {};
+          this.sections.forEach(s => { sectionsObj[s.id] = s; });
+          this.db.ref('kcnhs/sections').set(sectionsObj)
+            .catch(e => console.error('Firebase sections save error:', e));
+        } else {
+          this._saveLocalSections();
+        }
       }
 
       saveQuizzesToStorage() {
-        localStorage.setItem("mathmaster_quizzes", JSON.stringify(this.quizzes));
+        if (this.firebaseEnabled && this.db) {
+          // Convert array to keyed object for Firebase
+          const quizzesObj = {};
+          this.quizzes.forEach(q => { quizzesObj[q.id] = q; });
+          this.db.ref('kcnhs/quizzes').set(quizzesObj)
+            .catch(e => console.error('Firebase quizzes save error:', e));
+        } else {
+          localStorage.setItem('mathmaster_quizzes', JSON.stringify(this.quizzes));
+        }
       }
 
       saveStatsToStorage() {
-        localStorage.setItem("mathmaster_stats", JSON.stringify(this.userStats));
+        // Stats stay local (per-student per-device)
+        localStorage.setItem('mathmaster_stats', JSON.stringify(this.userStats));
+        // Optionally, also save a record per student name to Firebase for teacher reporting
+        if (this.firebaseEnabled && this.db && this.studentName) {
+          const safeKey = this.studentName.replace(/[.#$\[\]]/g, '_').substring(0, 64);
+          this.db.ref(`kcnhs/studentResults/${safeKey}`).set({
+            name: this.studentName,
+            section: this.currentStudentSection,
+            completed: this.userStats.completed,
+            totalScore: this.userStats.totalScore,
+            totalPossible: this.userStats.totalPossible,
+            lastUpdated: new Date().toISOString()
+          }).catch(e => console.error('Firebase stats save error:', e));
+        }
+      }
+
+      saveTeacherPasswordToStorage() {
+        if (this.firebaseEnabled && this.db) {
+          this.db.ref('kcnhs/settings').update({
+            teacherPassword: this.teacherPassword,
+            teacherPasswordChanged: this.isPasswordChanged
+          }).catch(e => console.error('Firebase password save error:', e));
+        } else {
+          localStorage.setItem('mathmaster_teacher_pass', this.teacherPassword);
+          localStorage.setItem('mathmaster_pass_changed', String(this.isPasswordChanged));
+        }
       }
 
       // ==============================
@@ -2787,8 +3017,7 @@
 
         this.teacherPassword = newPass;
         this.isPasswordChanged = true;
-        localStorage.setItem("mathmaster_teacher_pass", newPass);
-        localStorage.setItem("mathmaster_pass_changed", "true");
+        this.saveTeacherPasswordToStorage();
         this.updatePasswordHintVisibility();
 
         this.closeModal('changePasswordModal');
