@@ -1394,38 +1394,77 @@
       left: 0;
       width: 100vw;
       height: 100vh;
-      background: rgba(239, 68, 68, 0.95);
-      backdrop-filter: blur(10px);
+      background: rgba(10, 15, 29, 0.88);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
       z-index: 9999;
       display: none;
       align-items: center;
       justify-content: center;
-      flex-direction: column;
-      text-align: center;
-      padding: 1.5rem;
-      color: white;
+      padding: 1.25rem;
     }
 
     .anti-cheat-overlay.active {
       display: flex;
     }
 
-    .anti-cheat-overlay i {
-      font-size: clamp(2.5rem, 8vw, 4rem);
+    .anti-cheat-modal-inner {
+      background: rgba(23, 16, 26, 0.96);
+      border: 1.5px solid rgba(239, 68, 68, 0.55);
+      box-shadow: 0 25px 60px rgba(239, 68, 68, 0.35), 0 0 40px rgba(0, 0, 0, 0.85);
+      border-radius: var(--radius-xl);
+      padding: clamp(1.5rem, 5vw, 2.4rem) clamp(1.2rem, 4vw, 2rem);
+      max-width: 460px;
+      width: 100%;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      animation: modalPopIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .anti-cheat-icon-wrap {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: rgba(239, 68, 68, 0.18);
+      border: 1px solid rgba(239, 68, 68, 0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
       margin-bottom: 1rem;
+      animation: overlayPulse 1.4s infinite;
     }
 
-    .anti-cheat-overlay h2 {
-      font-size: clamp(1.4rem, 4vw, 2rem);
-      margin-bottom: 0.6rem;
+    .anti-cheat-icon-wrap i {
+      font-size: 2rem;
+      color: #ef4444;
     }
 
-    .anti-cheat-overlay p {
-      font-size: clamp(0.9rem, 2vw, 1.1rem);
-      max-width: 480px;
-      margin-bottom: 1.8rem;
-      opacity: 0.95;
+    .anti-cheat-modal-inner h2 {
+      font-size: clamp(1.25rem, 4vw, 1.6rem);
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: 0.5rem;
+      line-height: 1.25;
+    }
+
+    .anti-cheat-modal-inner p {
+      font-size: clamp(0.85rem, 2vw, 0.95rem);
+      color: #cbd5e1;
       line-height: 1.5;
+      margin-bottom: 1.5rem;
+    }
+
+    @keyframes modalPopIn {
+      from {
+        opacity: 0;
+        transform: scale(0.92);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
     }
 
     /* Footer */
@@ -1438,119 +1477,568 @@
       margin-top: auto;
     }
 
+    /* Helper utility classes */
+    .d-none-sm {
+      display: inline;
+    }
+
+    .filter-selects-row {
+      display: flex;
+      gap: 0.75rem;
+      flex: 2 1 auto;
+    }
+
+    /* =================================================================
+       MOBILE EXCELLENCE & RESPONSIVE DESIGN SYSTEM
+       ================================================================= */
+
     @media (max-width: 768px) {
+      .d-none-sm {
+        display: none !important;
+      }
+
+      .app-container {
+        padding: 0.85rem 0.75rem 2.5rem;
+      }
+
+      /* Navbar on Mobile */
       .navbar {
-        padding: 0.75rem 1rem;
+        padding: 0.55rem 0.85rem;
+        gap: 0.5rem;
+        flex-wrap: nowrap;
+      }
+
+      .brand {
+        gap: 0.55rem;
+        min-width: 0;
+      }
+
+      .brand-logo-img {
+        width: 34px;
+        height: 34px;
       }
 
       .brand-text h1 {
-        font-size: 1.05rem;
+        font-size: 0.95rem;
+        white-space: nowrap;
       }
 
       .brand-text p {
         display: none;
       }
 
-      .hero-banner {
+      .nav-actions {
+        gap: 0.35rem;
+        flex-wrap: nowrap;
+      }
+
+      .nav-quick-play-btn {
+        display: none !important;
+      }
+
+      .section-selector-badge {
+        padding: 0.3rem 0.55rem;
+        font-size: 0.74rem;
+        border-radius: var(--radius-sm);
+      }
+
+      #navSectionName {
+        max-width: 90px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        display: inline-block;
+        vertical-align: middle;
+      }
+
+      .nav-icon-btn {
+        width: 34px;
+        height: 34px;
+        padding: 0 !important;
+        display: inline-flex !important;
+        align-items: center;
+        justify-content: center;
+        border-radius: 10px !important;
+      }
+
+      .nav-icon-btn i {
+        font-size: 0.95rem;
+        margin: 0 !important;
+      }
+
+      /* Dashboard Section Selector Card */
+      .section-selector-card {
+        padding: 0.9rem 1rem;
         flex-direction: column;
-        text-align: center;
-        padding: 1.5rem 1rem;
+        align-items: stretch;
+        gap: 0.75rem;
+        border-radius: 16px;
+        margin-bottom: 1.25rem;
       }
 
-      .hero-content p {
-        margin-bottom: 1.2rem;
+      .section-selector-card .sec-info {
+        gap: 0.7rem;
       }
 
-      .stats-row {
+      .section-selector-card .sec-info i {
+        font-size: 1.35rem;
+      }
+
+      #dashSectionTitle {
+        font-size: 0.98rem;
+      }
+
+      #dashSectionSubtitle {
+        font-size: 0.72rem;
+      }
+
+      .section-selector-card > div:last-child {
+        display: grid !important;
+        grid-template-columns: 1fr 1fr;
+        gap: 0.5rem;
+        width: 100%;
+      }
+
+      .section-selector-card .btn {
+        padding: 0.55rem 0.5rem;
+        font-size: 0.78rem;
         justify-content: center;
       }
 
+      /* Dashboard Hero Banner */
+      .hero-banner {
+        flex-direction: column;
+        padding: 1.35rem 1rem;
+        gap: 1.25rem;
+        border-radius: 18px;
+        margin-bottom: 1.5rem;
+        text-align: left;
+      }
+
+      .school-crest-pill {
+        font-size: 0.72rem;
+        padding: 0.22rem 0.65rem;
+        margin-bottom: 0.5rem;
+      }
+
+      .hero-content h2 {
+        font-size: 1.45rem;
+        line-height: 1.22;
+        margin-bottom: 0.4rem;
+      }
+
+      .hero-content p {
+        font-size: 0.84rem;
+        line-height: 1.45;
+        margin-bottom: 1.15rem;
+      }
+
+      /* Executive 3-Column Stats Row on Mobile */
+      .stats-row {
+        display: grid !important;
+        grid-template-columns: repeat(3, 1fr) !important;
+        gap: 0.45rem !important;
+        width: 100% !important;
+      }
+
       .stat-pill {
-        flex: 1 1 100%;
+        flex: none !important;
+        min-width: 0 !important;
+        padding: 0.6rem 0.35rem;
+        flex-direction: column;
+        text-align: center;
+        gap: 0.2rem;
+        border-radius: 12px;
+      }
+
+      .stat-pill i {
+        font-size: 1.1rem;
+        margin-bottom: 0.1rem;
+      }
+
+      .stat-val {
+        font-size: 1.05rem;
+        font-weight: 800;
+        line-height: 1.1;
+      }
+
+      .stat-lbl {
+        font-size: 0.62rem;
+        letter-spacing: 0.02em;
       }
 
       .hero-action-box {
         width: 100%;
+        min-width: 0;
+        padding: 1.1rem 1rem;
+        border-radius: 16px;
+        text-align: center;
       }
 
-      .app-container {
-        padding: 1rem 0.75rem;
-      }
-
-      .section-header {
+      /* Filter Bar on Mobile */
+      .filter-bar {
+        display: flex;
         flex-direction: column;
-        align-items: flex-start;
+        gap: 0.55rem;
+        margin-bottom: 1.2rem;
+      }
+
+      .search-input-wrap {
+        width: 100%;
+        flex: 1 1 100%;
+      }
+
+      .filter-selects-row {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 0.4rem;
+        width: 100%;
+      }
+
+      .filter-select {
+        width: 100%;
+        min-width: 0;
+        padding: 0.55rem 0.35rem;
+        font-size: 0.74rem;
+        border-radius: 10px;
+        text-overflow: ellipsis;
+      }
+
+      /* Quiz Cards on Mobile */
+      .quiz-grid {
+        grid-template-columns: 1fr;
+        gap: 0.85rem;
+      }
+
+      .quiz-card {
+        padding: 1.15rem 1rem;
+        border-radius: 16px;
+      }
+
+      .quiz-card h4 {
+        font-size: 1.05rem;
+        line-height: 1.3;
+      }
+
+      .quiz-card p.description {
+        font-size: 0.82rem;
+        line-height: 1.4;
+        margin-bottom: 0.85rem;
+      }
+
+      .card-meta {
+        font-size: 0.75rem;
+        gap: 0.65rem;
+        padding-top: 0.65rem;
+        margin-bottom: 0.9rem;
+      }
+
+      .card-actions .btn-main-action {
+        padding: 0.75rem 1rem;
+        font-size: 0.92rem;
+        font-weight: 700;
+        border-radius: 12px;
+      }
+
+      /* Quiz Player & Proctor Bar on Mobile */
+      .quiz-player-container {
+        padding: 0;
       }
 
       .proctor-bar {
+        padding: 0.65rem 0.85rem;
+        border-radius: 14px;
+        gap: 0.45rem;
+        margin-bottom: 0.85rem;
         flex-direction: column;
-        align-items: flex-start;
-        gap: 0.6rem;
+        align-items: stretch;
       }
 
       .proctor-status {
         width: 100%;
         display: flex;
         flex-wrap: wrap;
-        gap: 0.4rem;
+        gap: 0.35rem;
+        justify-content: flex-start;
       }
 
       .proctor-badge,
       .proctor-overlay-badge,
       .infraction-counter {
-        font-size: 0.72rem;
-        padding: 0.24rem 0.55rem;
+        font-size: 0.68rem;
+        padding: 0.22rem 0.5rem;
+        border-radius: 14px;
       }
 
-      .anti-cheat-overlay {
-        padding: 1.25rem 1rem;
-      }
-
-      .anti-cheat-overlay i {
-        font-size: 3rem;
-        margin-bottom: 0.75rem;
-      }
-
-      .anti-cheat-overlay h2 {
-        font-size: 1.3rem;
-        margin-bottom: 0.5rem;
-      }
-
-      .anti-cheat-overlay p {
-        font-size: 0.88rem;
-        margin-bottom: 1.4rem;
-        line-height: 1.45;
-      }
-
-      .anti-cheat-overlay button {
+      .proctor-bar > div:last-child {
         width: 100%;
-        max-width: 320px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-top: 0.35rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.06);
+      }
+
+      .player-header {
         padding: 0.85rem 1rem;
+        border-radius: 14px;
+        margin-bottom: 0.85rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 0.6rem;
+      }
+
+      #playerQuizTitle {
+        font-size: 1.05rem;
+        line-height: 1.25;
+      }
+
+      .timer-pill {
+        font-size: 0.92rem;
+        padding: 0.32rem 0.65rem;
+        border-radius: 10px;
+        flex-shrink: 0;
+      }
+
+      .quiz-progress-bar {
+        height: 5px;
+        margin-bottom: 0.85rem;
+      }
+
+      .question-box {
+        padding: 1.15rem 1rem;
+        border-radius: 18px;
+        margin-bottom: 1rem;
+      }
+
+      .question-number-tag {
+        font-size: 0.72rem;
+        margin-bottom: 0.35rem;
+      }
+
+      .question-text {
+        font-size: 1.05rem;
+        line-height: 1.45;
+        margin-bottom: 1.15rem;
+      }
+
+      .math-formula {
+        font-size: 0.88rem;
+        padding: 0.5rem 0.75rem;
+        margin-bottom: 1rem;
+      }
+
+      .options-list {
+        gap: 0.65rem;
+      }
+
+      .option-btn {
+        padding: 0.85rem 0.95rem;
+        border-radius: 14px;
+        min-height: 52px;
+        font-size: 0.92rem;
+        gap: 0.75rem;
+      }
+
+      .option-letter {
+        width: 28px;
+        height: 28px;
+        border-radius: 8px;
+        font-size: 0.78rem;
+        font-weight: 800;
+      }
+
+      /* Thumb-friendly Player Footer on Mobile */
+      .player-footer {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 0.55rem !important;
+        width: 100% !important;
+      }
+
+      .player-footer > div {
+        display: flex !important;
+        gap: 0.55rem !important;
+        width: 100% !important;
+      }
+
+      #playerPrevBtn {
+        flex: 1 !important;
+        min-height: 48px;
+        justify-content: center;
+        font-size: 0.88rem;
+        border-radius: 12px;
+      }
+
+      #playerNextBtn {
+        flex: 2 !important;
+        min-height: 48px;
+        justify-content: center;
+        font-size: 0.95rem;
+        font-weight: 700;
+        border-radius: 12px;
+      }
+
+      .player-footer > button:first-child {
+        width: 100% !important;
+        min-height: 38px;
+        justify-content: center;
+        font-size: 0.8rem;
+        opacity: 0.75;
+        border-radius: 10px;
+      }
+
+      /* Results View on Mobile */
+      .result-card {
+        padding: 1.5rem 1rem;
+        border-radius: 20px;
+      }
+
+      .score-circle {
+        width: 105px;
+        height: 105px;
+        margin: 0 auto 1rem;
+      }
+
+      .score-circle .score-num {
+        font-size: 1.85rem;
+      }
+
+      .result-card > div:nth-of-type(2) {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 0.6rem !important;
+        width: 100% !important;
+      }
+
+      .result-card > div:nth-of-type(2) button {
+        width: 100% !important;
+        min-height: 46px;
+        justify-content: center;
+      }
+
+      .audit-log-card {
+        padding: 1rem 0.85rem;
+        border-radius: 16px;
+      }
+
+      .audit-log-table {
+        min-width: 440px;
+        font-size: 0.78rem;
+      }
+
+      /* Glassmorphic Anti-Cheat Alert Sheet */
+      .anti-cheat-overlay {
+        padding: 1rem;
+      }
+
+      .anti-cheat-modal-inner {
+        padding: 1.6rem 1.15rem;
+        border-radius: 18px;
+        max-width: 95vw;
+      }
+
+      .anti-cheat-icon-wrap {
+        width: 60px;
+        height: 60px;
+        margin-bottom: 0.85rem;
+      }
+
+      .anti-cheat-icon-wrap i {
+        font-size: 1.8rem;
+      }
+
+      .anti-cheat-modal-inner h2 {
+        font-size: 1.3rem;
+        line-height: 1.25;
+      }
+
+      .anti-cheat-modal-inner p {
+        font-size: 0.84rem;
+        line-height: 1.45;
+        margin-bottom: 1.25rem;
+      }
+
+      /* Modals on Mobile */
+      .modal-backdrop {
+        padding: 0.65rem;
+      }
+
+      .modal-card {
+        padding: 1.25rem 1rem;
+        border-radius: 18px;
+        max-width: 100%;
+      }
+
+      .theme-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.55rem;
+      }
+
+      /* Teacher Management Studio on Mobile */
+      .teacher-topbar {
+        padding: 1.1rem 1rem;
+        border-radius: 16px;
+        gap: 0.85rem;
+      }
+
+      .teacher-topbar h2 {
+        font-size: 1.25rem;
+      }
+
+      .teacher-topbar > div:last-child {
+        display: grid !important;
+        grid-template-columns: 1fr 1fr !important;
+        gap: 0.45rem !important;
+        width: 100% !important;
+      }
+
+      .teacher-topbar > div:last-child button {
+        width: 100% !important;
+        justify-content: center;
+        padding: 0.55rem 0.45rem;
+        font-size: 0.78rem;
+      }
+
+      .teacher-topbar > div:last-child button:last-child {
+        grid-column: span 2;
+      }
+    }
+
+    /* Extra Small Screen Optimization (Screens <= 380px) */
+    @media (max-width: 380px) {
+      .navbar {
+        padding: 0.45rem 0.6rem;
+      }
+
+      .brand-logo-img {
+        width: 30px;
+        height: 30px;
+      }
+
+      .brand-text h1 {
+        font-size: 0.9rem;
+      }
+
+      #navSectionName {
+        max-width: 65px;
+      }
+
+      .stats-row {
+        gap: 0.3rem !important;
+      }
+
+      .stat-pill {
+        padding: 0.5rem 0.2rem;
+      }
+
+      .stat-val {
         font-size: 0.95rem;
       }
 
-      .player-footer {
-        flex-direction: column-reverse;
-      }
-
-      .player-footer>div,
-      .player-footer button {
-        width: 100%;
-      }
-
-      .teacher-topbar {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-
-      .teacher-topbar>div:last-child {
-        width: 100%;
-        display: flex;
-        flex-direction: column;
-      }
-
-      .teacher-topbar>div:last-child button {
-        width: 100%;
+      .stat-lbl {
+        font-size: 0.56rem;
       }
     }
   </style>
@@ -1564,12 +2052,16 @@
 
   <!-- Anti-Cheat Infraction Warning Overlay -->
   <div id="antiCheatOverlay" class="anti-cheat-overlay">
-    <i id="antiCheatOverlayIcon" class="fa-solid fa-triangle-exclamation"></i>
-    <h2 id="antiCheatOverlayTitle">Security Infraction Detected</h2>
-    <p id="antiCheatOverlayMsg">You have navigated away from the quiz window. This action has been logged in the audit report.</p>
-    <button class="btn btn-primary" onclick="app.resumeFromInfraction()">
-      <i class="fa-solid fa-arrow-right"></i> <span id="antiCheatOverlayBtnText">Dismiss & Continue Quiz</span>
-    </button>
+    <div class="anti-cheat-modal-inner">
+      <div class="anti-cheat-icon-wrap">
+        <i id="antiCheatOverlayIcon" class="fa-solid fa-triangle-exclamation"></i>
+      </div>
+      <h2 id="antiCheatOverlayTitle">Security Infraction Detected</h2>
+      <p id="antiCheatOverlayMsg">You have navigated away from the quiz window. This action has been logged in the audit report.</p>
+      <button class="btn btn-primary" onclick="app.resumeFromInfraction()" style="width: 100%; min-height: 48px; justify-content: center; font-size: 0.95rem; border-radius: 12px;">
+        <i class="fa-solid fa-arrow-right"></i> <span id="antiCheatOverlayBtnText">Dismiss & Continue Quiz</span>
+      </button>
+    </div>
   </div>
 
   <!-- Top Navigation -->
@@ -1592,21 +2084,21 @@
       </button>
 
       <!-- Theme Switcher Button -->
-      <button class="btn btn-outline btn-sm" onclick="app.openThemeModal()" title="Customize Theme / Design">
+      <button class="btn btn-outline btn-sm nav-icon-btn" onclick="app.openThemeModal()" title="Customize Theme / Design">
         <i class="fa-solid fa-palette" style="color:var(--accent);"></i>
         <span class="d-none-sm">Theme</span>
       </button>
 
       <div id="teacherActiveBadge" class="teacher-badge" style="display: none;">
-        <i class="fa-solid fa-circle-check"></i> Teacher Mode
+        <i class="fa-solid fa-circle-check"></i> <span class="d-none-sm">Teacher Mode</span>
       </div>
 
-      <button id="teacherNavBtn" class="btn btn-outline btn-sm" onclick="app.handleTeacherNavClick()">
+      <button id="teacherNavBtn" class="btn btn-outline btn-sm nav-icon-btn" onclick="app.handleTeacherNavClick()" title="Teacher Management Portal">
         <i class="fa-solid fa-chalkboard-user"></i>
-        <span id="teacherBtnText">Teacher Portal</span>
+        <span id="teacherBtnText" class="d-none-sm">Teacher Portal</span>
       </button>
 
-      <button class="btn btn-primary btn-sm" onclick="app.showQuickQuiz()">
+      <button class="btn btn-primary btn-sm nav-quick-play-btn" onclick="app.showQuickQuiz()">
         <i class="fa-solid fa-bolt"></i> Quick Play
       </button>
     </div>
@@ -1717,26 +2209,28 @@
             <input type="text" id="searchInput" class="search-input" placeholder="Search quiz titles, topics..."
               oninput="app.handleFilterChange()">
           </div>
-          <select id="sectionFilter" class="filter-select" onchange="app.handleFilterChange()">
-            <option value="all">All Sections</option>
-            <!-- Filled dynamically -->
-          </select>
-          <select id="categoryFilter" class="filter-select" onchange="app.handleFilterChange()">
-            <option value="all">All Subjects</option>
-            <option value="Mathematics">Mathematics</option>
-            <option value="Algebra">Algebra</option>
-            <option value="Geometry">Geometry</option>
-            <option value="Science">Science</option>
-            <option value="English">English</option>
-            <option value="Filipino">Filipino</option>
-            <option value="Logic">Logic & Puzzles</option>
-          </select>
-          <select id="difficultyFilter" class="filter-select" onchange="app.handleFilterChange()">
-            <option value="all">All Difficulties</option>
-            <option value="Easy">Easy</option>
-            <option value="Medium">Medium</option>
-            <option value="Hard">Hard</option>
-          </select>
+          <div class="filter-selects-row">
+            <select id="sectionFilter" class="filter-select" onchange="app.handleFilterChange()">
+              <option value="all">All Sections</option>
+              <!-- Filled dynamically -->
+            </select>
+            <select id="categoryFilter" class="filter-select" onchange="app.handleFilterChange()">
+              <option value="all">All Subjects</option>
+              <option value="Mathematics">Mathematics</option>
+              <option value="Algebra">Algebra</option>
+              <option value="Geometry">Geometry</option>
+              <option value="Science">Science</option>
+              <option value="English">English</option>
+              <option value="Filipino">Filipino</option>
+              <option value="Logic">Logic & Puzzles</option>
+            </select>
+            <select id="difficultyFilter" class="filter-select" onchange="app.handleFilterChange()">
+              <option value="all">All Difficulties</option>
+              <option value="Easy">Easy</option>
+              <option value="Medium">Medium</option>
+              <option value="Hard">Hard</option>
+            </select>
+          </div>
         </div>
 
         <div id="allQuizzesGrid" class="quiz-grid">
