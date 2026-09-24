@@ -1,0 +1,3596 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
+  <title>Kidapawan City National High School - Interactive Proctored Quiz Hub</title>
+  <meta name="description"
+    content="Kidapawan City National High School Official Quiz Hub. Interactive math and general subject quizzes, class section custom themes, teacher design studio, and secure proctoring audits.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+  <style>
+    /* Dynamic Theme CSS Variables controlled via Theme Engine */
+    :root {
+      --bg-gradient: radial-gradient(circle at 10% 20%, rgba(6, 78, 59, 0.95) 0%, rgba(15, 23, 42, 1) 90.2%);
+      --surface-dark: #0f172a;
+      --surface-card: rgba(30, 41, 59, 0.75);
+      --surface-card-hover: rgba(51, 65, 85, 0.85);
+      --surface-glass: rgba(255, 255, 255, 0.05);
+      --border-color: rgba(255, 255, 255, 0.12);
+      --border-color-glow: rgba(16, 185, 129, 0.35);
+
+      --primary: #10b981;
+      --primary-light: #34d399;
+      --primary-dark: #059669;
+      --accent: #f59e0b;
+      --accent-glow: rgba(245, 158, 11, 0.35);
+      --secondary: #06b6d4;
+      --success: #10b981;
+      --warning: #f59e0b;
+      --danger: #ef4444;
+
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --text-dim: #64748b;
+
+      --radius-sm: 8px;
+      --radius-md: 14px;
+      --radius-lg: 20px;
+      --radius-xl: 28px;
+      --shadow-glow: 0 10px 30px -10px rgba(16, 185, 129, 0.4);
+      --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* THEME PRESET CLASSES */
+    body.theme-kcnhs-green {
+      --bg-gradient: radial-gradient(circle at 10% 20%, rgba(6, 78, 59, 0.95) 0%, rgba(15, 23, 42, 1) 90.2%);
+      --primary: #10b981;
+      --primary-light: #34d399;
+      --primary-dark: #059669;
+      --accent: #f59e0b;
+      --border-color-glow: rgba(16, 185, 129, 0.35);
+      --shadow-glow: 0 10px 30px -10px rgba(16, 185, 129, 0.4);
+    }
+
+    body.theme-gold-heritage {
+      --bg-gradient: radial-gradient(circle at 10% 20%, rgba(120, 53, 15, 0.9) 0%, rgba(15, 23, 42, 1) 90.2%);
+      --primary: #f59e0b;
+      --primary-light: #fbbf24;
+      --primary-dark: #d97706;
+      --accent: #10b981;
+      --border-color-glow: rgba(245, 158, 11, 0.35);
+      --shadow-glow: 0 10px 30px -10px rgba(245, 158, 11, 0.4);
+    }
+
+    body.theme-royal-blue {
+      --bg-gradient: radial-gradient(circle at 10% 20%, rgba(30, 58, 138, 0.95) 0%, rgba(15, 23, 42, 1) 90.2%);
+      --primary: #3b82f6;
+      --primary-light: #60a5fa;
+      --primary-dark: #1d4ed8;
+      --accent: #ec4899;
+      --border-color-glow: rgba(59, 130, 246, 0.35);
+      --shadow-glow: 0 10px 30px -10px rgba(59, 130, 246, 0.4);
+    }
+
+    body.theme-cyber-indigo {
+      --bg-gradient: radial-gradient(circle at 10% 20%, rgba(49, 46, 129, 0.95) 0%, rgba(15, 23, 42, 1) 90.2%);
+      --primary: #6366f1;
+      --primary-light: #818cf8;
+      --primary-dark: #4f46e5;
+      --accent: #ec4899;
+      --border-color-glow: rgba(99, 102, 241, 0.35);
+      --shadow-glow: 0 10px 30px -10px rgba(99, 102, 241, 0.4);
+    }
+
+    body.theme-ruby-crimson {
+      --bg-gradient: radial-gradient(circle at 10% 20%, rgba(136, 19, 55, 0.95) 0%, rgba(15, 23, 42, 1) 90.2%);
+      --primary: #f43f5e;
+      --primary-light: #fb7185;
+      --primary-dark: #e11d48;
+      --accent: #f59e0b;
+      --border-color-glow: rgba(244, 63, 94, 0.35);
+      --shadow-glow: 0 10px 30px -10px rgba(244, 63, 94, 0.4);
+    }
+
+    body.theme-dark-obsidian {
+      --bg-gradient: radial-gradient(circle at 10% 20%, rgba(24, 24, 27, 1) 0%, rgba(9, 9, 11, 1) 90.2%);
+      --primary: #a1a1aa;
+      --primary-light: #e4e4e7;
+      --primary-dark: #71717a;
+      --accent: #38bdf8;
+      --border-color-glow: rgba(255, 255, 255, 0.2);
+      --shadow-glow: 0 10px 30px -10px rgba(255, 255, 255, 0.15);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    /* Anti-Cheat: Text Selection restriction */
+    body.quiz-active-mode {
+      -webkit-user-select: none !important;
+      -moz-user-select: none !important;
+      -ms-user-select: none !important;
+      user-select: none !important;
+      -webkit-touch-callout: none !important;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background: var(--bg-gradient);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+      padding-bottom: env(safe-area-inset-bottom, 0);
+      transition: background 0.4s ease;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    .brand-title {
+      font-family: 'Outfit', sans-serif;
+      letter-spacing: -0.02em;
+    }
+
+    /* Ambient Background Glow */
+    .ambient-glow {
+      position: fixed;
+      width: clamp(280px, 40vw, 500px);
+      height: clamp(280px, 40vw, 500px);
+      border-radius: 50%;
+      pointer-events: none;
+      filter: blur(100px);
+      z-index: 0;
+      opacity: 0.18;
+      transition: background 0.4s ease;
+    }
+
+    .glow-1 {
+      top: -80px;
+      left: -80px;
+      background: var(--primary);
+    }
+
+    .glow-2 {
+      bottom: -80px;
+      right: -80px;
+      background: var(--accent);
+    }
+
+    .glow-3 {
+      top: 40%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: var(--secondary);
+      opacity: 0.08;
+    }
+
+    /* Top Navigation */
+    .navbar {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(15, 23, 42, 0.9);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border-color);
+      padding: 0.75rem 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+      cursor: pointer;
+      text-decoration: none;
+      min-width: max-content;
+    }
+
+    .brand-logo-img {
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid var(--accent);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+      transition: var(--transition);
+      background: #fff;
+      flex-shrink: 0;
+    }
+
+    .brand:hover .brand-logo-img {
+      transform: scale(1.08) rotate(5deg);
+    }
+
+    .brand-text h1 {
+      font-size: 1.15rem;
+      font-weight: 800;
+      background: linear-gradient(90deg, #ffffff, #d1fae5);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      line-height: 1.15;
+    }
+
+    .brand-text p {
+      font-size: 0.72rem;
+      color: var(--primary-light);
+      font-weight: 600;
+      letter-spacing: 0.04em;
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    /* Section Selector Dropdown in Nav */
+    .section-selector-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: rgba(15, 23, 42, 0.8);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 0.35rem 0.75rem;
+      font-size: 0.82rem;
+      color: var(--text-main);
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .section-selector-badge:hover {
+      border-color: var(--primary-light);
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.45rem;
+      padding: 0.6rem 1.1rem;
+      border-radius: var(--radius-md);
+      font-weight: 600;
+      font-size: 0.85rem;
+      cursor: pointer;
+      border: 1px solid transparent;
+      transition: var(--transition);
+      text-decoration: none;
+      white-space: nowrap;
+      touch-action: manipulation;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: white;
+      box-shadow: 0 4px 15px rgba(16, 185, 129, 0.35);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(16, 185, 129, 0.5);
+    }
+
+    .btn-accent {
+      background: linear-gradient(135deg, var(--accent), #d97706);
+      color: white;
+      box-shadow: 0 4px 15px var(--accent-glow);
+    }
+
+    .btn-accent:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(245, 158, 11, 0.5);
+    }
+
+    .btn-danger {
+      background: rgba(239, 68, 68, 0.15);
+      border-color: rgba(239, 68, 68, 0.35);
+      color: #f87171;
+    }
+
+    .btn-danger:hover {
+      background: rgba(239, 68, 68, 0.28);
+      border-color: #ef4444;
+      color: #fff;
+    }
+
+    .btn-outline {
+      background: rgba(255, 255, 255, 0.05);
+      border-color: var(--border-color);
+      color: var(--text-main);
+    }
+
+    .btn-outline:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: var(--text-muted);
+      transform: translateY(-2px);
+    }
+
+    .btn-sm {
+      padding: 0.4rem 0.8rem;
+      font-size: 0.78rem;
+      border-radius: var(--radius-sm);
+    }
+
+    .teacher-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: rgba(16, 185, 129, 0.15);
+      color: #34d399;
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      padding: 0.3rem 0.75rem;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 700;
+    }
+
+    /* Main Container */
+    .app-container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 1.8rem 1.25rem;
+      width: 100%;
+      position: relative;
+      z-index: 10;
+      flex: 1;
+    }
+
+    /* Views */
+    .view-section {
+      display: none;
+      animation: fadeIn 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .view-section.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Dashboard Hero */
+    .hero-banner {
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.2), rgba(245, 158, 11, 0.15));
+      border: 1px solid var(--border-color-glow);
+      border-radius: var(--radius-xl);
+      padding: clamp(1.5rem, 3vw, 2.5rem);
+      margin-bottom: 2.2rem;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 2rem;
+    }
+
+    .hero-banner::after {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -20%;
+      width: 300px;
+      height: 300px;
+      background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .school-crest-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(15, 23, 42, 0.75);
+      border: 1px solid var(--border-color);
+      padding: 0.3rem 0.85rem;
+      border-radius: 20px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--primary-light);
+      margin-bottom: 0.8rem;
+    }
+
+    .hero-content h2 {
+      font-size: clamp(1.5rem, 3.2vw, 2.2rem);
+      font-weight: 800;
+      margin-bottom: 0.6rem;
+      background: linear-gradient(120deg, #ffffff 40%, #a7f3d0);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      line-height: 1.2;
+    }
+
+    .hero-content p {
+      color: var(--text-muted);
+      font-size: clamp(0.88rem, 1.8vw, 1.05rem);
+      max-width: 580px;
+      line-height: 1.55;
+      margin-bottom: 1.5rem;
+    }
+
+    .stats-row {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .stat-pill {
+      background: rgba(15, 23, 42, 0.65);
+      backdrop-filter: blur(8px);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 0.65rem 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      flex: 1 1 calc(33.333% - 1rem);
+      min-width: 140px;
+    }
+
+    .stat-pill i {
+      font-size: 1.3rem;
+      color: var(--primary-light);
+    }
+
+    .stat-val {
+      font-weight: 700;
+      font-size: 1.15rem;
+      color: #fff;
+    }
+
+    .stat-lbl {
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .hero-action-box {
+      background: var(--surface-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      padding: 1.5rem;
+      text-align: center;
+      min-width: 250px;
+      flex-shrink: 0;
+    }
+
+    .hero-action-box h4 {
+      font-size: 1.05rem;
+      margin-bottom: 0.4rem;
+    }
+
+    .hero-action-box p {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      margin-bottom: 1rem;
+    }
+
+    /* Section Selector Bar in Dashboard */
+    .section-selector-card {
+      background: var(--surface-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      padding: 1.1rem 1.5rem;
+      margin-bottom: 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .section-selector-card .sec-info {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+
+    .section-selector-card .sec-info i {
+      font-size: 1.5rem;
+      color: var(--accent);
+    }
+
+    /* Section Headers */
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: 1.25rem;
+      gap: 1rem;
+    }
+
+    .section-header-title {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .section-header-title i {
+      color: var(--accent);
+      font-size: 1.3rem;
+    }
+
+    .section-header-title h3 {
+      font-size: clamp(1.2rem, 2.5vw, 1.4rem);
+      font-weight: 700;
+    }
+
+    .section-subtitle {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      margin-top: 0.2rem;
+    }
+
+    /* Recent Quizzes Grid */
+    .recent-quizzes-wrapper {
+      margin-bottom: 3rem;
+    }
+
+    .quiz-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(clamp(260px, 100%, 360px), 1fr));
+      gap: 1.25rem;
+    }
+
+    /* Quiz Card */
+    .quiz-card {
+      background: var(--surface-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      padding: 1.4rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+      transition: var(--transition);
+      overflow: hidden;
+    }
+
+    .quiz-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--border-color-glow);
+      box-shadow: 0 12px 28px -8px rgba(16, 185, 129, 0.25);
+      background: var(--surface-card-hover);
+    }
+
+    .card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 0.9rem;
+      gap: 0.5rem;
+    }
+
+    .badge-group {
+      display: flex;
+      gap: 0.4rem;
+      flex-wrap: wrap;
+    }
+
+    .badge {
+      font-size: 0.68rem;
+      font-weight: 700;
+      padding: 0.25rem 0.6rem;
+      border-radius: 20px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .badge-new {
+      background: linear-gradient(135deg, var(--accent), #d97706);
+      color: white;
+      box-shadow: 0 2px 8px var(--accent-glow);
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+
+      0%,
+      100% {
+        opacity: 1;
+      }
+
+      50% {
+        opacity: 0.75;
+      }
+    }
+
+    .badge-category {
+      background: rgba(16, 185, 129, 0.18);
+      color: var(--primary-light);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+    }
+
+    .badge-section-tag {
+      background: rgba(245, 158, 11, 0.15);
+      color: #fbbf24;
+      border: 1px solid rgba(245, 158, 11, 0.3);
+    }
+
+    .badge-difficulty {
+      padding: 0.25rem 0.5rem;
+      border-radius: 6px;
+      font-weight: 600;
+      font-size: 0.68rem;
+    }
+
+    .diff-easy {
+      background: rgba(16, 185, 129, 0.15);
+      color: #34d399;
+    }
+
+    .diff-medium {
+      background: rgba(245, 158, 11, 0.15);
+      color: #fbbf24;
+    }
+
+    .diff-hard {
+      background: rgba(239, 68, 68, 0.15);
+      color: #f87171;
+    }
+
+    .quiz-card h4 {
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin-bottom: 0.45rem;
+      color: #fff;
+      line-height: 1.35;
+    }
+
+    .quiz-card p.description {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      line-height: 1.45;
+      margin-bottom: 1.25rem;
+      flex-grow: 1;
+    }
+
+    .card-meta {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      font-size: 0.78rem;
+      color: var(--text-dim);
+      padding-top: 0.75rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+      margin-bottom: 1.2rem;
+      flex-wrap: wrap;
+    }
+
+    .card-meta span {
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+
+    .card-actions {
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+    }
+
+    .card-actions .btn-main-action {
+      flex: 1;
+      justify-content: center;
+    }
+
+    /* Empty state */
+    .empty-state {
+      grid-column: 1/-1;
+      text-align: center;
+      padding: 3rem 1.25rem;
+      background: var(--surface-card);
+      border-radius: var(--radius-lg);
+      border: 1px dashed var(--border-color);
+    }
+
+    .empty-state i {
+      font-size: 2.5rem;
+      color: var(--text-dim);
+      margin-bottom: 0.8rem;
+    }
+
+    .empty-state h4 {
+      font-size: 1.15rem;
+      margin-bottom: 0.4rem;
+    }
+
+    .empty-state p {
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      max-width: 440px;
+      margin: 0 auto 1.25rem;
+      line-height: 1.5;
+    }
+
+    /* Search & Filter Bar */
+    .filter-bar {
+      display: flex;
+      gap: 0.75rem;
+      margin-bottom: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    .search-input-wrap {
+      flex: 1 1 220px;
+      position: relative;
+    }
+
+    .search-input-wrap i {
+      position: absolute;
+      left: 1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-dim);
+    }
+
+    .search-input {
+      width: 100%;
+      padding: 0.7rem 1rem 0.7rem 2.5rem;
+      background: var(--surface-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      color: white;
+      font-family: inherit;
+      font-size: 0.88rem;
+      outline: none;
+      transition: var(--transition);
+    }
+
+    .search-input:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.2);
+    }
+
+    .filter-select {
+      background: var(--surface-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      color: var(--text-main);
+      padding: 0.7rem 1rem;
+      font-family: inherit;
+      font-size: 0.85rem;
+      outline: none;
+      cursor: pointer;
+      flex: 1 1 140px;
+    }
+
+    .filter-select:focus {
+      border-color: var(--primary);
+    }
+
+    /* Theme Picker Color Swatches */
+    .theme-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+      gap: 0.85rem;
+      margin-top: 1rem;
+    }
+
+    .theme-card {
+      background: rgba(15, 23, 42, 0.7);
+      border: 2px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 0.85rem;
+      cursor: pointer;
+      transition: var(--transition);
+      text-align: center;
+    }
+
+    .theme-card:hover {
+      border-color: var(--primary-light);
+      transform: translateY(-2px);
+    }
+
+    .theme-card.active {
+      border-color: var(--accent);
+      background: rgba(245, 158, 11, 0.1);
+      box-shadow: 0 0 15px rgba(245, 158, 11, 0.25);
+    }
+
+    .theme-preview {
+      height: 36px;
+      border-radius: var(--radius-sm);
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      color: #fff;
+      font-weight: 700;
+    }
+
+    /* Modal Styling */
+    .modal-backdrop {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(10, 15, 30, 0.85);
+      backdrop-filter: blur(8px);
+      z-index: 100;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
+
+    .modal-backdrop.active {
+      display: flex;
+      animation: fadeIn 0.2s ease-out;
+    }
+
+    .modal-card {
+      background: #131d33;
+      border: 1px solid var(--border-color-glow);
+      border-radius: var(--radius-xl);
+      padding: clamp(1.5rem, 3vw, 2.2rem);
+      max-width: 520px;
+      width: 100%;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7), 0 0 40px rgba(16, 185, 129, 0.2);
+      position: relative;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.25rem;
+    }
+
+    .modal-header h3 {
+      font-size: 1.3rem;
+      font-weight: 700;
+    }
+
+    .close-btn {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      font-size: 1.2rem;
+      cursor: pointer;
+      padding: 0.3rem;
+      border-radius: 6px;
+      transition: var(--transition);
+    }
+
+    .close-btn:hover {
+      color: white;
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .form-group {
+      margin-bottom: 1.15rem;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 0.82rem;
+      font-weight: 600;
+      margin-bottom: 0.4rem;
+      color: var(--text-muted);
+    }
+
+    .form-control {
+      width: 100%;
+      padding: 0.7rem 0.9rem;
+      background: rgba(15, 23, 42, 0.75);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      color: white;
+      font-family: inherit;
+      font-size: 0.9rem;
+      outline: none;
+      transition: var(--transition);
+    }
+
+    .form-control:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.25);
+    }
+
+    .hint-text {
+      font-size: 0.72rem;
+      color: var(--text-dim);
+      margin-top: 0.3rem;
+    }
+
+    /* Teacher Portal Styles */
+    .teacher-container {
+      background: var(--surface-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-xl);
+      padding: clamp(1.25rem, 2.5vw, 2rem);
+      margin-bottom: 2rem;
+    }
+
+    .teacher-topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.8rem;
+      padding-bottom: 1.25rem;
+      border-bottom: 1px solid var(--border-color);
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    /* Section Layout Manager in Teacher Portal */
+    .section-manager-card {
+      background: rgba(15, 23, 42, 0.5);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .question-builder-card {
+      background: rgba(15, 23, 42, 0.6);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      padding: 1.25rem;
+      margin-bottom: 1.25rem;
+      position: relative;
+    }
+
+    .question-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.9rem;
+    }
+
+    .option-row {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      margin-bottom: 0.65rem;
+    }
+
+    .option-radio {
+      width: 20px;
+      height: 20px;
+      accent-color: var(--success);
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    /* Quiz Player & Proctoring Styles */
+    .quiz-player-container {
+      max-width: 860px;
+      margin: 0 auto;
+    }
+
+    .player-header {
+      background: var(--surface-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      padding: 1rem 1.5rem;
+      margin-bottom: 1.25rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+    }
+
+    .timer-pill {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 700;
+      font-size: 1.05rem;
+      background: rgba(239, 68, 68, 0.15);
+      color: #f87171;
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      padding: 0.45rem 0.85rem;
+      border-radius: var(--radius-md);
+    }
+
+    .timer-pill.normal {
+      background: rgba(16, 185, 129, 0.15);
+      color: var(--primary-light);
+      border-color: rgba(16, 185, 129, 0.3);
+    }
+
+    /* Proctoring Bar & Live Camera */
+    .proctor-bar {
+      background: rgba(15, 23, 42, 0.85);
+      border: 1px solid var(--border-color-glow);
+      border-radius: var(--radius-lg);
+      padding: 0.8rem 1.25rem;
+      margin-bottom: 1.25rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+
+    .proctor-status {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-size: 0.82rem;
+      flex-wrap: wrap;
+    }
+
+    .proctor-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: rgba(16, 185, 129, 0.15);
+      color: #34d399;
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      padding: 0.28rem 0.7rem;
+      border-radius: 20px;
+      font-weight: 700;
+      font-size: 0.75rem;
+    }
+
+
+
+    .infraction-counter {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: rgba(239, 68, 68, 0.15);
+      color: #f87171;
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      padding: 0.28rem 0.7rem;
+      border-radius: 20px;
+      font-weight: 700;
+      font-size: 0.75rem;
+    }
+
+    .quiz-progress-bar {
+      height: 6px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 3px;
+      margin-bottom: 1.25rem;
+      overflow: hidden;
+    }
+
+    .quiz-progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      width: 0%;
+      transition: width 0.3s ease;
+    }
+
+    .question-box {
+      background: var(--surface-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-xl);
+      padding: clamp(1.25rem, 3vw, 2rem);
+      margin-bottom: 1.25rem;
+    }
+
+    .question-number-tag {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 0.6rem;
+    }
+
+    .question-text {
+      font-size: clamp(1.1rem, 2.5vw, 1.3rem);
+      font-weight: 700;
+      line-height: 1.4;
+      margin-bottom: 1.5rem;
+    }
+
+    .math-formula {
+      font-family: 'JetBrains Mono', monospace;
+      background: rgba(15, 23, 42, 0.8);
+      border: 1px solid var(--border-color);
+      padding: 0.65rem 1rem;
+      border-radius: var(--radius-md);
+      margin-bottom: 1.25rem;
+      display: inline-block;
+      color: #a5b4fc;
+      font-size: clamp(0.9rem, 2vw, 1.05rem);
+      max-width: 100%;
+      overflow-x: auto;
+    }
+
+    .options-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .option-btn {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+      width: 100%;
+      padding: clamp(0.85rem, 2vw, 1.1rem) 1.2rem;
+      background: rgba(15, 23, 42, 0.6);
+      border: 1.5px solid var(--border-color);
+      border-radius: var(--radius-md);
+      color: white;
+      text-align: left;
+      font-family: inherit;
+      font-size: clamp(0.88rem, 1.8vw, 0.98rem);
+      font-weight: 500;
+      cursor: pointer;
+      transition: var(--transition);
+      touch-action: manipulation;
+    }
+
+    .option-btn:hover {
+      border-color: var(--primary-light);
+      background: rgba(16, 185, 129, 0.12);
+      transform: translateX(3px);
+    }
+
+    .option-btn.selected {
+      border-color: var(--primary);
+      background: rgba(16, 185, 129, 0.25);
+      box-shadow: 0 0 15px rgba(16, 185, 129, 0.3);
+    }
+
+    .option-letter {
+      width: 30px;
+      height: 30px;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      flex-shrink: 0;
+    }
+
+    .option-btn.selected .option-letter {
+      background: var(--primary);
+      color: white;
+    }
+
+    .player-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+
+    /* Results Screen */
+    .result-card {
+      background: var(--surface-card);
+      border: 1px solid var(--border-color-glow);
+      border-radius: var(--radius-xl);
+      padding: clamp(1.8rem, 4vw, 3rem) clamp(1rem, 3vw, 2rem);
+      text-align: center;
+      max-width: 760px;
+      margin: 0 auto;
+      box-shadow: var(--shadow-glow);
+    }
+
+    .score-circle {
+      width: clamp(110px, 20vw, 135px);
+      height: clamp(110px, 20vw, 135px);
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1.25rem;
+      box-shadow: 0 10px 30px rgba(16, 185, 129, 0.5);
+    }
+
+    .score-circle .score-num {
+      font-size: clamp(2rem, 5vw, 2.5rem);
+      font-weight: 800;
+      line-height: 1;
+    }
+
+    .score-circle .score-pct {
+      font-size: 0.85rem;
+      opacity: 0.9;
+    }
+
+    .review-list {
+      margin-top: 2rem;
+      text-align: left;
+    }
+
+    .review-item {
+      background: rgba(15, 23, 42, 0.6);
+      border-radius: var(--radius-md);
+      padding: 1.1rem;
+      margin-bottom: 1rem;
+      border-left: 4px solid var(--border-color);
+    }
+
+    .review-item.correct {
+      border-left-color: var(--success);
+    }
+
+    .review-item.incorrect {
+      border-left-color: var(--danger);
+    }
+
+    /* Audit Log Table in Results */
+    .audit-log-card {
+      background: rgba(15, 23, 42, 0.6);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 1.2rem;
+      margin-top: 1.8rem;
+      text-align: left;
+    }
+
+    .audit-log-table-wrap {
+      overflow-x: auto;
+      margin-top: 0.75rem;
+    }
+
+    .audit-log-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.82rem;
+      min-width: 480px;
+    }
+
+    .audit-log-table th,
+    .audit-log-table td {
+      padding: 0.55rem 0.75rem;
+      text-align: left;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .audit-log-table th {
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+
+    .audit-tag {
+      display: inline-block;
+      padding: 0.2rem 0.45rem;
+      border-radius: 4px;
+      font-weight: 700;
+      font-size: 0.72rem;
+      white-space: nowrap;
+    }
+
+    .audit-tag-warn {
+      background: rgba(245, 158, 11, 0.2);
+      color: #fbbf24;
+    }
+
+    .audit-tag-danger {
+      background: rgba(239, 68, 68, 0.2);
+      color: #f87171;
+    }
+
+    .audit-tag-info {
+      background: rgba(16, 185, 129, 0.2);
+      color: #34d399;
+    }
+
+    /* Audit Snapshot Gallery */
+    .audit-snapshots {
+      display: flex;
+      gap: 0.65rem;
+      overflow-x: auto;
+      padding: 0.65rem 0;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .audit-snapshots img {
+      width: 110px;
+      height: 80px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border-color);
+      object-fit: cover;
+      flex-shrink: 0;
+    }
+
+    /* Toast Notification */
+    .toast-container {
+      position: fixed;
+      bottom: 1.5rem;
+      right: 1.5rem;
+      left: 1.5rem;
+      max-width: 380px;
+      margin-left: auto;
+      z-index: 1000;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+      pointer-events: none;
+    }
+
+    .toast {
+      background: #1e293b;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 0.8rem 1.2rem;
+      color: white;
+      font-size: 0.85rem;
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+      animation: slideIn 0.3s ease;
+      pointer-events: auto;
+    }
+
+    @keyframes slideIn {
+      from {
+        transform: translateY(20px);
+        opacity: 0;
+      }
+
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    /* Warning Overlay when cheating detected */
+    .anti-cheat-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(239, 68, 68, 0.95);
+      backdrop-filter: blur(10px);
+      z-index: 9999;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      text-align: center;
+      padding: 1.5rem;
+      color: white;
+    }
+
+    .anti-cheat-overlay.active {
+      display: flex;
+    }
+
+    .anti-cheat-overlay i {
+      font-size: clamp(2.5rem, 8vw, 4rem);
+      margin-bottom: 1rem;
+    }
+
+    .anti-cheat-overlay h2 {
+      font-size: clamp(1.4rem, 4vw, 2rem);
+      margin-bottom: 0.6rem;
+    }
+
+    .anti-cheat-overlay p {
+      font-size: clamp(0.9rem, 2vw, 1.1rem);
+      max-width: 480px;
+      margin-bottom: 1.8rem;
+      opacity: 0.95;
+      line-height: 1.5;
+    }
+
+    /* Footer */
+    footer {
+      border-top: 1px solid var(--border-color);
+      padding: 1.8rem 1rem;
+      text-align: center;
+      color: var(--text-dim);
+      font-size: 0.82rem;
+      margin-top: auto;
+    }
+
+    @media (max-width: 768px) {
+      .navbar {
+        padding: 0.75rem 1rem;
+      }
+
+      .brand-text h1 {
+        font-size: 1.05rem;
+      }
+
+      .brand-text p {
+        display: none;
+      }
+
+      .hero-banner {
+        flex-direction: column;
+        text-align: center;
+        padding: 1.5rem 1rem;
+      }
+
+      .hero-content p {
+        margin-bottom: 1.2rem;
+      }
+
+      .stats-row {
+        justify-content: center;
+      }
+
+      .stat-pill {
+        flex: 1 1 100%;
+      }
+
+      .hero-action-box {
+        width: 100%;
+      }
+
+      .app-container {
+        padding: 1rem 0.75rem;
+      }
+
+      .section-header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .proctor-bar {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .player-footer {
+        flex-direction: column-reverse;
+      }
+
+      .player-footer>div,
+      .player-footer button {
+        width: 100%;
+      }
+
+      .teacher-topbar {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .teacher-topbar>div:last-child {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .teacher-topbar>div:last-child button {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+
+<body class="theme-kcnhs-green">
+  <!-- Ambient background glow effects -->
+  <div class="ambient-glow glow-1"></div>
+  <div class="ambient-glow glow-2"></div>
+  <div class="ambient-glow glow-3"></div>
+
+  <!-- Anti-Cheat Infraction Warning Overlay -->
+  <div id="antiCheatOverlay" class="anti-cheat-overlay">
+    <i class="fa-solid fa-triangle-exclamation"></i>
+    <h2>Security Infraction Detected</h2>
+    <p id="antiCheatOverlayMsg">You have navigated away from the quiz window. This action has been logged in the audit
+      report.</p>
+    <button class="btn btn-primary" onclick="app.resumeFromInfraction()">
+      <i class="fa-solid fa-arrow-right"></i> Dismiss & Continue Quiz
+    </button>
+  </div>
+
+  <!-- Top Navigation -->
+  <header class="navbar">
+    <div class="brand" onclick="app.showDashboard()">
+      <img src="./kcnhs_logo.jpg" alt="Kidapawan City National High School Logo" class="brand-logo-img"
+        onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Kidapawan_City_National_High_School_Logo.png/600px-Kidapawan_City_National_High_School_Logo.png'">
+      <div class="brand-text">
+        <h1>KCNHS Quiz Hub</h1>
+        <p>Kidapawan City National High School &bull; Est. 1970</p>
+      </div>
+    </div>
+
+    <div class="nav-actions">
+      <!-- Student Class Section Chooser -->
+      <button class="section-selector-badge" onclick="app.openChangeSectionModal()" title="Change Your Class Section">
+        <i class="fa-solid fa-users-rectangle" style="color:var(--accent);"></i>
+        <span id="navSectionName">Grade 10 - Rizal</span>
+        <i class="fa-solid fa-chevron-down" style="font-size:0.7rem; color:var(--text-muted);"></i>
+      </button>
+
+      <!-- Theme Switcher Button -->
+      <button class="btn btn-outline btn-sm" onclick="app.openThemeModal()" title="Customize Theme / Design">
+        <i class="fa-solid fa-palette" style="color:var(--accent);"></i>
+        <span class="d-none-sm">Theme</span>
+      </button>
+
+      <div id="teacherActiveBadge" class="teacher-badge" style="display: none;">
+        <i class="fa-solid fa-circle-check"></i> Teacher Mode
+      </div>
+
+      <button id="teacherNavBtn" class="btn btn-outline btn-sm" onclick="app.handleTeacherNavClick()">
+        <i class="fa-solid fa-chalkboard-user"></i>
+        <span id="teacherBtnText">Teacher Portal</span>
+      </button>
+
+      <button class="btn btn-primary btn-sm" onclick="app.showQuickQuiz()">
+        <i class="fa-solid fa-bolt"></i> Quick Play
+      </button>
+    </div>
+  </header>
+
+  <!-- Main View Area -->
+  <main class="app-container">
+
+    <!-- VIEW: STUDENT DASHBOARD -->
+    <section id="dashboardView" class="view-section active">
+
+      <!-- Current Class Section Bar -->
+      <div class="section-selector-card">
+        <div class="sec-info">
+          <i class="fa-solid fa-graduation-cap"></i>
+          <div>
+            <div style="font-weight: 700; font-size: 1.05rem;" id="dashSectionTitle">Class: Grade 10 - Rizal</div>
+            <div style="font-size: 0.8rem; color: var(--text-muted);" id="dashSectionSubtitle">Kidapawan City National
+              High School &bull; Filtered for your section</div>
+          </div>
+        </div>
+        <div style="display:flex; gap:0.6rem;">
+          <button class="btn btn-outline btn-sm" onclick="app.openChangeSectionModal()">
+            <i class="fa-solid fa-arrow-right-arrow-left"></i> Change Section
+          </button>
+          <button class="btn btn-outline btn-sm" onclick="app.openThemeModal()">
+            <i class="fa-solid fa-wand-magic-sparkles"></i> Change Design
+          </button>
+        </div>
+      </div>
+
+      <!-- Hero Banner -->
+      <div class="hero-banner">
+        <div class="hero-content">
+          <div class="school-crest-pill">
+            <i class="fa-solid fa-award" style="color:var(--accent);"></i> Official KCNHS Learning Portal
+          </div>
+          <h2>Kidapawan City National High School Quiz Hub</h2>
+          <p>Sharpen your knowledge with proctored class assessments, explore quizzes tailored for your section, and
+            track your academic milestones.</p>
+          <div class="stats-row">
+            <div class="stat-pill">
+              <i class="fa-solid fa-layer-group"></i>
+              <div>
+                <div class="stat-val" id="statTotalQuizzes">0</div>
+                <div class="stat-lbl">Available Quizzes</div>
+              </div>
+            </div>
+            <div class="stat-pill">
+              <i class="fa-solid fa-trophy"></i>
+              <div>
+                <div class="stat-val" id="statCompletedQuizzes">0</div>
+                <div class="stat-lbl">Quizzes Taken</div>
+              </div>
+            </div>
+            <div class="stat-pill">
+              <i class="fa-solid fa-fire"></i>
+              <div>
+                <div class="stat-val" id="statAvgScore">--</div>
+                <div class="stat-lbl">Avg Accuracy</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-action-box">
+          <h4>KCNHS Faculty?</h4>
+          <p>Create section-specific quizzes, design layouts, and monitor anti-cheat audits.</p>
+          <button class="btn btn-accent btn-sm" onclick="app.openTeacherAuthModal()">
+            <i class="fa-solid fa-plus"></i> Teacher Studio
+          </button>
+        </div>
+      </div>
+
+      <!-- RECENTLY ADDED QUIZZES SECTION -->
+      <div class="recent-quizzes-wrapper">
+        <div class="section-header">
+          <div class="section-header-title">
+            <i class="fa-solid fa-sparkles" style="color:var(--accent);"></i>
+            <div>
+              <h3>Recently Added Quizzes</h3>
+              <div class="section-subtitle">Freshly published challenges created by KCNHS instructors</div>
+            </div>
+          </div>
+          <span class="badge badge-new" id="recentBadgeCount">New Updates</span>
+        </div>
+        <div id="recentQuizzesGrid" class="quiz-grid">
+          <!-- Dynamically inserted recent quizzes -->
+        </div>
+      </div>
+
+      <!-- ALL QUIZZES SECTION WITH SEARCH & FILTER -->
+      <div class="all-quizzes-wrapper">
+        <div class="section-header">
+          <div class="section-header-title">
+            <i class="fa-solid fa-cubes"></i>
+            <div>
+              <h3>Explore All Quizzes</h3>
+              <div class="section-subtitle">Search by topic, category, difficulty, or class section</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Filter Controls -->
+        <div class="filter-bar">
+          <div class="search-input-wrap">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" id="searchInput" class="search-input" placeholder="Search quiz titles, topics..."
+              oninput="app.handleFilterChange()">
+          </div>
+          <select id="sectionFilter" class="filter-select" onchange="app.handleFilterChange()">
+            <option value="all">All Sections</option>
+            <!-- Filled dynamically -->
+          </select>
+          <select id="categoryFilter" class="filter-select" onchange="app.handleFilterChange()">
+            <option value="all">All Subjects</option>
+            <option value="Mathematics">Mathematics</option>
+            <option value="Algebra">Algebra</option>
+            <option value="Geometry">Geometry</option>
+            <option value="Science">Science</option>
+            <option value="English">English</option>
+            <option value="Filipino">Filipino</option>
+            <option value="Logic">Logic & Puzzles</option>
+          </select>
+          <select id="difficultyFilter" class="filter-select" onchange="app.handleFilterChange()">
+            <option value="all">All Difficulties</option>
+            <option value="Easy">Easy</option>
+            <option value="Medium">Medium</option>
+            <option value="Hard">Hard</option>
+          </select>
+        </div>
+
+        <div id="allQuizzesGrid" class="quiz-grid">
+          <!-- Dynamically inserted all quizzes -->
+        </div>
+      </div>
+    </section>
+
+    <!-- VIEW: TEACHER PORTAL & QUIZ BUILDER -->
+    <section id="teacherView" class="view-section">
+      <div class="teacher-container">
+        <div class="teacher-topbar">
+          <div>
+            <h2><i class="fa-solid fa-graduation-cap" style="color:var(--primary-light);"></i> KCNHS Teacher Management
+              Studio</h2>
+            <p class="section-subtitle">Create new assessments, customize section theme colors & layouts, and manage
+              student tests.</p>
+          </div>
+          <div style="display:flex; gap:0.6rem; align-items: center; flex-wrap: wrap;">
+            <button class="btn btn-outline btn-sm" onclick="app.openThemeModal()">
+              <i class="fa-solid fa-palette"></i> Design Theme
+            </button>
+            <button class="btn btn-outline btn-sm" onclick="app.exportQuizzes()">
+              <i class="fa-solid fa-download"></i> Export Data
+            </button>
+            <button class="btn btn-danger btn-sm" onclick="app.deleteAllQuizzes()">
+              <i class="fa-solid fa-trash"></i> Delete All
+            </button>
+            <button class="btn btn-outline btn-sm" onclick="app.showChangePasswordModal()">
+              <i class="fa-solid fa-key"></i> Change Password
+            </button>
+            <button class="btn btn-outline btn-sm" style="color:#f87171;" onclick="app.logoutTeacher()">
+              <i class="fa-solid fa-right-from-bracket"></i> Exit Mode
+            </button>
+          </div>
+        </div>
+
+        <!-- SECTION CLASS COLOR & LAYOUT CUSTOMIZER (TEACHER FEATURE) -->
+        <div class="section-manager-card">
+          <div
+            style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 1.25rem; flex-wrap: wrap; gap:0.5rem;">
+            <div>
+              <h3 style="font-size: 1.2rem;"><i class="fa-solid fa-paintbrush" style="color:var(--accent);"></i> Class
+                Section Creator & Layout Studio</h3>
+              <p style="font-size: 0.8rem; color:var(--text-muted);">Create new class sections, delete old ones, and
+                assign custom color themes & layouts.</p>
+            </div>
+            <button type="button" class="btn btn-accent btn-sm" onclick="app.openCreateSectionModal()">
+              <i class="fa-solid fa-plus"></i> Create New Section
+            </button>
+          </div>
+
+          <div id="sectionLayoutCardsList"
+            style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1rem;">
+            <!-- Dynamically populated section configuration cards -->
+          </div>
+        </div>
+
+        <!-- Create / Edit Quiz Form -->
+        <div
+          style="background: rgba(15, 23, 42, 0.4); border: 1px solid var(--border-color); border-radius: var(--radius-lg); padding: clamp(1rem, 2.5vw, 1.8rem); margin-bottom: 2rem;">
+          <h3 id="builderFormTitle" style="margin-bottom: 1.25rem; font-size: 1.25rem;">
+            <i class="fa-solid fa-pen-to-square" style="color:var(--accent);"></i> Create New Quiz
+          </h3>
+
+          <form id="quizBuilderForm" onsubmit="app.saveQuiz(event)">
+            <input type="hidden" id="builderQuizId" value="">
+
+            <div
+              style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 1.25rem;">
+              <div class="form-group" style="margin-bottom:0;">
+                <label for="quizTitle">Quiz Title *</label>
+                <input type="text" id="quizTitle" class="form-control"
+                  placeholder="e.g. Grade 10 Math Mastery Quarter 1" required>
+              </div>
+              <div class="form-group" style="margin-bottom:0;">
+                <label for="quizTargetSection">Target Class Section *</label>
+                <select id="quizTargetSection" class="form-control" required>
+                  <!-- Filled dynamically -->
+                </select>
+              </div>
+              <div class="form-group" style="margin-bottom:0;">
+                <label for="quizCategory">Subject / Category *</label>
+                <select id="quizCategory" class="form-control" required>
+                  <option value="Mathematics">Mathematics</option>
+                  <option value="Algebra">Algebra</option>
+                  <option value="Geometry">Geometry</option>
+                  <option value="Science">Science</option>
+                  <option value="English">English</option>
+                  <option value="Filipino">Filipino</option>
+                  <option value="Logic">Logic & Puzzles</option>
+                </select>
+              </div>
+              <div class="form-group" style="margin-bottom:0;">
+                <label for="quizDifficulty">Difficulty *</label>
+                <select id="quizDifficulty" class="form-control" required>
+                  <option value="Easy">Easy</option>
+                  <option value="Medium">Medium</option>
+                  <option value="Hard">Hard</option>
+                </select>
+              </div>
+              <div class="form-group" style="margin-bottom:0;">
+                <label for="quizTimeLimit">Time Limit (Seconds)</label>
+                <input type="number" id="quizTimeLimit" class="form-control" placeholder="e.g. 120 (0 for no limit)"
+                  min="0" value="120">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="quizDescription">Short Description</label>
+              <textarea id="quizDescription" class="form-control" rows="2"
+                placeholder="Briefly describe what this quiz tests for your students."></textarea>
+            </div>
+
+            <!-- Dynamic Question Items -->
+            <div style="margin-top: 1.5rem;">
+              <div
+                style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.5rem;">
+                <h4 style="font-size: 1.1rem;"><i class="fa-solid fa-list-ol"></i> Quiz Questions (<span
+                    id="questionCountDisplay">0</span>)</h4>
+                <button type="button" class="btn btn-outline btn-sm" onclick="app.addQuestionBlock()">
+                  <i class="fa-solid fa-plus"></i> Add Question
+                </button>
+              </div>
+
+              <div id="questionsContainer">
+                <!-- Question Cards populated dynamically -->
+              </div>
+            </div>
+
+            <div style="display: flex; gap: 0.75rem; margin-top: 1.5rem; flex-wrap: wrap;">
+              <button type="submit" class="btn btn-primary">
+                <i class="fa-solid fa-floppy-disk"></i> Save & Publish Quiz
+              </button>
+              <button type="button" class="btn btn-outline" onclick="app.resetBuilderForm()">
+                <i class="fa-solid fa-rotate-left"></i> Clear Form
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <!-- Current Quizzes Management List -->
+        <div>
+          <h3 style="margin-bottom: 1rem; font-size: 1.2rem;"><i class="fa-solid fa-sliders"></i> Manage Published
+            Quizzes</h3>
+          <div id="teacherQuizList" class="quiz-grid">
+            <!-- Rendered list of quizzes with edit/delete buttons -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- VIEW: ACTIVE QUIZ PLAYER & PROCTORING -->
+    <section id="quizPlayerView" class="view-section">
+      <div class="quiz-player-container">
+
+        <!-- Live Proctoring & Anti-Cheat Bar -->
+        <div class="proctor-bar">
+          <div class="proctor-status">
+            <span class="proctor-badge"><i class="fa-solid fa-shield-halved"></i> Proctoring Active</span>
+            <span class="infraction-counter" id="infractionBadge"><i class="fa-solid fa-triangle-exclamation"></i> 0
+              Infractions</span>
+          </div>
+          <div style="display:flex; align-items:center; gap: 0.75rem; flex-wrap:wrap;">
+            <!-- Student name chip -->
+            <div id="playerStudentNameWrap" style="display:none; align-items:center; gap:0.4rem;">
+              <div class="student-name-chip">
+                <i class="fa-solid fa-circle-user"></i>
+                <span id="playerStudentNameChip"></span>
+              </div>
+            </div>
+            <div style="font-size:0.78rem; color:var(--text-muted);">
+              <i class="fa-solid fa-lock"></i> Inputs & clipboard monitored
+            </div>
+          </div>
+        </div>
+
+        <!-- Player Top Bar -->
+        <div class="player-header">
+          <div>
+            <div style="display:flex; gap:0.4rem; align-items:center; margin-bottom:0.3rem;">
+              <span class="badge badge-category" id="playerCategoryBadge">Subject</span>
+              <span class="badge badge-section-tag" id="playerSectionBadge">Section</span>
+            </div>
+            <h3 id="playerQuizTitle" style="font-size: 1.25rem;">Quiz Title</h3>
+          </div>
+          <div class="timer-pill normal" id="playerTimerDisplay">
+            <i class="fa-solid fa-clock"></i>
+            <span id="playerTimerText">00:00</span>
+          </div>
+        </div>
+
+        <!-- Progress Indicator -->
+        <div class="quiz-progress-bar">
+          <div id="playerProgressBar" class="quiz-progress-fill"></div>
+        </div>
+
+        <!-- Question Box -->
+        <div class="question-box">
+          <div class="question-number-tag" id="playerQuestionTag">Question 1 of 5</div>
+          <div class="question-text" id="playerQuestionText">What is 2 + 2?</div>
+          <div id="playerFormulaContainer" style="display:none;" class="math-formula"></div>
+
+          <div class="options-list" id="playerOptionsList">
+            <!-- Rendered Options -->
+          </div>
+        </div>
+
+        <!-- Player Controls -->
+        <div class="player-footer">
+          <button class="btn btn-outline" onclick="app.confirmExitQuiz()">
+            <i class="fa-solid fa-door-open"></i> Quit Quiz
+          </button>
+
+          <div style="display:flex; gap:0.75rem; flex: 1; justify-content: flex-end;">
+            <button id="playerPrevBtn" class="btn btn-outline" onclick="app.prevQuestion()">
+              <i class="fa-solid fa-arrow-left"></i> Previous
+            </button>
+            <button id="playerNextBtn" class="btn btn-primary" onclick="app.nextQuestion()">
+              Next <i class="fa-solid fa-arrow-right"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- VIEW: QUIZ RESULTS / SUMMARY & AUDIT TRAIL -->
+    <section id="resultsView" class="view-section">
+      <div class="result-card">
+        <!-- Student name banner on results -->
+        <div id="resultStudentBanner" style="display:none; justify-content:center; margin-bottom:1.25rem;">
+          <div class="result-student-chip">
+            <i class="fa-solid fa-circle-user"></i>
+            <span id="resultStudentName"></span>
+          </div>
+        </div>
+
+        <div class="score-circle">
+          <div class="score-num" id="resultScore">0/0</div>
+          <div class="score-pct" id="resultPercentage">0%</div>
+        </div>
+
+        <h2 id="resultTitle" style="font-size: clamp(1.4rem, 3.5vw, 1.8rem); margin-bottom: 0.4rem;">Great Job!</h2>
+        <p id="resultFeedback" style="color: var(--text-muted); margin-bottom: 1.8rem; font-size: 0.9rem;">You've
+          completed the proctored quiz.</p>
+
+        <div style="display: flex; justify-content: center; gap: 0.75rem; flex-wrap: wrap;">
+          <button class="btn btn-primary" onclick="app.retakeCurrentQuiz()">
+            <i class="fa-solid fa-rotate-right"></i> Retake Quiz
+          </button>
+          <button class="btn btn-outline" onclick="app.showDashboard()">
+            <i class="fa-solid fa-house"></i> Back to Dashboard
+          </button>
+        </div>
+
+        <!-- Proctoring & Anti-Cheat Audit Trail -->
+        <div class="audit-log-card">
+          <div
+            style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.5rem; flex-wrap: wrap; gap: 0.5rem;">
+            <h4><i class="fa-solid fa-shield-virus" style="color:var(--accent);"></i> Proctoring & Integrity Audit Log
+            </h4>
+            <span id="auditSummaryBadge" class="audit-tag audit-tag-info">0 Infractions</span>
+          </div>
+          <p style="font-size:0.78rem; color:var(--text-muted);">Timestamped records of tab switches, focus loss, device
+            orientation changes, and clipboard intercepts.</p>
+
+
+
+          <div class="audit-log-table-wrap">
+            <table class="audit-log-table">
+              <thead>
+                <tr>
+                  <th>Timestamp</th>
+                  <th>Event Type</th>
+                  <th>Details & Duration</th>
+                </tr>
+              </thead>
+              <tbody id="auditLogBody">
+                <!-- Dynamically populated audit events -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Question breakdown review -->
+        <div class="review-list">
+          <h4 style="margin-bottom: 1rem;"><i class="fa-solid fa-clipboard-check"></i> Answer Review & Explanations</h4>
+          <div id="reviewItemsContainer">
+            <!-- Review cards inserted dynamically -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- MODAL: CREATE / CONFIGURE NEW SECTION IN TEACHER MODE -->
+  <div id="createSectionModal" class="modal-backdrop">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3><i class="fa-solid fa-plus-circle" style="color:var(--accent);"></i> Create Class Section & Layout</h3>
+        <button class="close-btn" onclick="app.closeModal('createSectionModal')"><i
+            class="fa-solid fa-xmark"></i></button>
+      </div>
+      <form onsubmit="app.handleCreateSectionSubmit(event)">
+        <div class="form-group">
+          <label for="newSectionNameInput">Class Section Name *</label>
+          <input type="text" id="newSectionNameInput" class="form-control" placeholder="e.g. Grade 10 - Mabini"
+            required>
+        </div>
+        <div class="form-group">
+          <label for="newSectionThemeSelect">Theme / Color Palette</label>
+          <select id="newSectionThemeSelect" class="form-control">
+            <option value="theme-kcnhs-green">KCNHS Emerald (Green & Gold)</option>
+            <option value="theme-gold-heritage">Golden Heritage (Gold Flame)</option>
+            <option value="theme-royal-blue">Mt. Apo Royal (Blue & Pink)</option>
+            <option value="theme-cyber-indigo">Neon Cyber (Cyber Indigo)</option>
+            <option value="theme-ruby-crimson">Torch Crimson (Ruby Red)</option>
+            <option value="theme-dark-obsidian">Dark Obsidian (Minimalist Slate)</option>
+          </select>
+        </div>
+        <div style="display: flex; justify-content: flex-end; gap: 0.75rem; margin-top: 1.5rem;">
+          <button type="button" class="btn btn-outline" onclick="app.closeModal('createSectionModal')">Cancel</button>
+          <button type="submit" class="btn btn-accent"><i class="fa-solid fa-save"></i> Save Section</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL: CHANGE DESIGN / THEME (STUDENT & TEACHER) -->
+  <div id="themeModal" class="modal-backdrop">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3><i class="fa-solid fa-palette" style="color:var(--accent);"></i> Customize Design Theme</h3>
+        <button class="close-btn" onclick="app.closeModal('themeModal')"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:1rem;">Select your preferred color palette and
+        visual atmosphere:</p>
+
+      <div class="theme-grid" id="themeOptionsGrid">
+        <div class="theme-card active" onclick="app.setTheme('theme-kcnhs-green')">
+          <div class="theme-preview" style="background: linear-gradient(135deg, #10b981, #064e3b);">Emerald Gold</div>
+          <div style="font-size:0.8rem; font-weight:700;">KCNHS Emerald</div>
+        </div>
+        <div class="theme-card" onclick="app.setTheme('theme-gold-heritage')">
+          <div class="theme-preview" style="background: linear-gradient(135deg, #f59e0b, #78350f);">Gold Flame</div>
+          <div style="font-size:0.8rem; font-weight:700;">Golden Heritage</div>
+        </div>
+        <div class="theme-card" onclick="app.setTheme('theme-royal-blue')">
+          <div class="theme-preview" style="background: linear-gradient(135deg, #3b82f6, #1e3a8a);">Royal Blue</div>
+          <div style="font-size:0.8rem; font-weight:700;">Mt. Apo Royal</div>
+        </div>
+        <div class="theme-card" onclick="app.setTheme('theme-cyber-indigo')">
+          <div class="theme-preview" style="background: linear-gradient(135deg, #6366f1, #312e81);">Cyber Indigo</div>
+          <div style="font-size:0.8rem; font-weight:700;">Neon Cyber</div>
+        </div>
+        <div class="theme-card" onclick="app.setTheme('theme-ruby-crimson')">
+          <div class="theme-preview" style="background: linear-gradient(135deg, #f43f5e, #881337);">Ruby Torch</div>
+          <div style="font-size:0.8rem; font-weight:700;">Torch Crimson</div>
+        </div>
+        <div class="theme-card" onclick="app.setTheme('theme-dark-obsidian')">
+          <div class="theme-preview" style="background: linear-gradient(135deg, #3f3f46, #09090b);">Obsidian</div>
+          <div style="font-size:0.8rem; font-weight:700;">Dark Obsidian</div>
+        </div>
+      </div>
+
+      <div style="display: flex; justify-content: flex-end; gap: 0.75rem; margin-top: 1.5rem;">
+        <button type="button" class="btn btn-primary" onclick="app.closeModal('themeModal')">Done</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: CHANGE STUDENT CLASS SECTION -->
+  <div id="sectionChooserModal" class="modal-backdrop">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3><i class="fa-solid fa-users-rectangle" style="color:var(--primary-light);"></i> Select Your Class Section
+        </h3>
+        <button class="close-btn" onclick="app.closeModal('sectionChooserModal')"><i
+            class="fa-solid fa-xmark"></i></button>
+      </div>
+      <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:1.25rem;">Choose your grade level & section to
+        automatically apply section color schemes and filter quizzes:</p>
+
+      <div class="form-group">
+        <label for="studentSectionSelect">Class Section</label>
+        <select id="studentSectionSelect" class="form-control" style="font-size:1rem; padding:0.8rem;"
+          onchange="app.onStudentSectionChange(this.value)">
+          <!-- Sections populated dynamically -->
+        </select>
+      </div>
+
+      <div style="display: flex; justify-content: flex-end; gap: 0.75rem; margin-top: 1.5rem;">
+        <button type="button" class="btn btn-primary" onclick="app.closeModal('sectionChooserModal')">Apply
+          Section</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: TEACHER PASSWORD AUTHENTICATION -->
+  <div id="teacherAuthModal" class="modal-backdrop">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3><i class="fa-solid fa-lock" style="color:var(--primary-light);"></i> Teacher Authentication</h3>
+        <button class="close-btn" onclick="app.closeModal('teacherAuthModal')"><i
+            class="fa-solid fa-xmark"></i></button>
+      </div>
+      <form onsubmit="app.verifyTeacherPassword(event)">
+        <div class="form-group">
+          <label for="teacherPasswordInput">Enter Teacher Password</label>
+          <input type="password" id="teacherPasswordInput" class="form-control" placeholder="••••••••" required
+            autocomplete="current-password">
+          <div id="defaultPasswordHint" class="hint-text">Default password is <code>teacher123</code> (can be changed
+            once logged in).</div>
+        </div>
+        <div style="display: flex; justify-content: flex-end; gap: 0.75rem; margin-top: 1.5rem;">
+          <button type="button" class="btn btn-outline" onclick="app.closeModal('teacherAuthModal')">Cancel</button>
+          <button type="submit" class="btn btn-primary">
+            <i class="fa-solid fa-unlock"></i> Unlock Portal
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL: CHANGE TEACHER PASSWORD -->
+  <div id="changePasswordModal" class="modal-backdrop">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3><i class="fa-solid fa-key" style="color:var(--accent);"></i> Change Teacher Password</h3>
+        <button class="close-btn" onclick="app.closeModal('changePasswordModal')"><i
+            class="fa-solid fa-xmark"></i></button>
+      </div>
+      <form onsubmit="app.updateTeacherPassword(event)">
+        <div class="form-group">
+          <label for="currentPasswordInput">Current Password</label>
+          <input type="password" id="currentPasswordInput" class="form-control" required>
+        </div>
+        <div class="form-group">
+          <label for="newPasswordInput">New Password</label>
+          <input type="password" id="newPasswordInput" class="form-control" minlength="4" required>
+        </div>
+        <div style="display: flex; justify-content: flex-end; gap: 0.75rem; margin-top: 1.5rem;">
+          <button type="button" class="btn btn-outline" onclick="app.closeModal('changePasswordModal')">Cancel</button>
+          <button type="submit" class="btn btn-accent">Save New Password</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL: PRE-QUIZ STUDENT NAME ENTRY -->
+  <div id="studentNameModal" class="modal-backdrop">
+    <div class="modal-card" style="max-width:420px; text-align:center;">
+      <div style="margin-bottom:1.5rem;">
+        <div
+          style="width:64px; height:64px; border-radius:50%; background:linear-gradient(135deg,var(--primary),var(--primary-dark)); display:flex; align-items:center; justify-content:center; margin:0 auto 1rem; font-size:1.8rem; box-shadow:0 8px 24px rgba(16,185,129,0.35);">
+          <i class="fa-solid fa-user-graduate" style="color:#fff;"></i>
+        </div>
+        <h3 style="font-size:1.3rem; margin-bottom:0.35rem;">Identify Yourself</h3>
+        <p style="font-size:0.85rem; color:var(--text-muted);">Enter your name or username before starting the quiz.
+          This will appear on your result sheet.</p>
+      </div>
+      <form onsubmit="app.beginQuizWithName(event)" autocomplete="off">
+        <div class="form-group" style="text-align:left;">
+          <label for="studentNameInput"><i class="fa-solid fa-id-card" style="color:var(--accent);"></i> Full Name or
+            Username *</label>
+          <input type="text" id="studentNameInput" class="form-control" placeholder="e.g. Juan dela Cruz" maxlength="60"
+            required autocomplete="name" style="font-size:1rem; text-align:center; letter-spacing:0.02em;">
+        </div>
+        <div style="font-size:0.75rem; color:var(--text-dim); margin:-0.4rem 0 1.25rem;">
+          <i class="fa-solid fa-lock" style="color:var(--text-dim);"></i> Your name is only stored locally on this
+          device.
+        </div>
+        <div style="display:flex; gap:0.75rem; justify-content:center; flex-wrap:wrap;">
+          <button type="button" class="btn btn-outline" onclick="app.closeModal('studentNameModal')">
+            <i class="fa-solid fa-xmark"></i> Cancel
+          </button>
+          <button type="submit" class="btn btn-primary" style="min-width:140px;">
+            <i class="fa-solid fa-play"></i> Start Quiz
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Toast Notification System -->
+  <div id="toastContainer" class="toast-container"></div>
+
+  <footer>
+    <p>Kidapawan City National High School &bull; Established 1970 &bull; Roxas St., Kidapawan City</p>
+  </footer>
+
+  <!-- Application Logic & Section/Theme Engine -->
+  <script>
+    /**
+     * Default KCNHS Class Sections Configuration
+     */
+    const DEFAULT_SECTIONS = [
+      { id: "g10-rizal", name: "Grade 10 - Rizal", theme: "theme-kcnhs-green", badgeColor: "#10b981" },
+      { id: "g10-bonifacio", name: "Grade 10 - Bonifacio", theme: "theme-gold-heritage", badgeColor: "#f59e0b" },
+      { id: "g9-aguinaldo", name: "Grade 9 - Aguinaldo", theme: "theme-royal-blue", badgeColor: "#3b82f6" },
+      { id: "g9-delpilar", name: "Grade 9 - Del Pilar", theme: "theme-ruby-crimson", badgeColor: "#f43f5e" },
+      { id: "g8-mabini", name: "Grade 8 - Mabini", theme: "theme-cyber-indigo", badgeColor: "#6366f1" },
+      { id: "g7-luna", name: "Grade 7 - Luna", theme: "theme-dark-obsidian", badgeColor: "#a1a1aa" },
+      { id: "stem-11", name: "Grade 11 - STEM Newton", theme: "theme-kcnhs-green", badgeColor: "#10b981" },
+      { id: "humss-12", name: "Grade 12 - HUMSS Plato", theme: "theme-gold-heritage", badgeColor: "#f59e0b" }
+    ];
+
+    /**
+     * Main App Controller Class
+     */
+    class QuizApp {
+      constructor() {
+        this.quizzes = [];
+        this.sections = [];
+        this.currentStudentSection = "g10-rizal";
+        this.currentTheme = "theme-kcnhs-green";
+
+        this.isTeacherLoggedIn = false;
+        this.teacherPassword = "teacher123";
+        this.isPasswordChanged = false;
+
+        // Student Identity
+        this.studentName = '';
+        this._pendingQuizId = null;  // quiz to launch after name entry
+
+        // Active Quiz Player State
+        this.currentQuiz = null;
+        this.currentQuestionIndex = 0;
+        this.userAnswers = [];
+        this.timerInterval = null;
+        this.timeRemaining = 0;
+
+        // Anti-Cheat & Proctoring Engine State
+        this.auditLogs = [];
+        this.infractionCount = 0;
+        this.leaveTimestamp = null;
+        this.isProctoringActive = false;
+        this.fullscreenActive = false;   // tracks if fullscreen was actually granted
+        this.orientationCooldown = false;
+        this._blurDebounce = null;       // debounce timer for blur events
+
+        // User stats
+        this.userStats = {
+          completed: 0,
+          totalScore: 0,
+          totalPossible: 0
+        };
+
+        this.init();
+      }
+
+      init() {
+        this.loadStorage();
+        this.applyTheme(this.currentTheme);
+        this.populateSectionDropdowns();
+        this.renderDashboard();
+        this.updateTeacherUI();
+        this.updateUserStatsDisplay();
+        this.setupGlobalSecurityListeners();
+      }
+
+      loadStorage() {
+        try {
+          // Load Student Name
+          const storedName = localStorage.getItem('kcnhs_student_name');
+          if (storedName) this.studentName = storedName;
+
+          // Load Sections
+          const storedSections = localStorage.getItem("kcnhs_sections");
+          if (storedSections) {
+            this.sections = JSON.parse(storedSections);
+          } else {
+            this.sections = [...DEFAULT_SECTIONS];
+            this.saveSectionsToStorage();
+          }
+
+          // Load Quizzes
+          const storedQuizzes = localStorage.getItem("mathmaster_quizzes");
+          if (storedQuizzes) {
+            this.quizzes = JSON.parse(storedQuizzes);
+          } else {
+            this.quizzes = [];
+            this.saveQuizzesToStorage();
+          }
+
+          // Load Student Section Preference
+          const storedSec = localStorage.getItem("kcnhs_current_section");
+          if (storedSec && this.sections.some(s => s.id === storedSec)) {
+            this.currentStudentSection = storedSec;
+          } else if (this.sections.length > 0) {
+            this.currentStudentSection = this.sections[0].id;
+          }
+
+          // Load Theme Preference
+          const storedTheme = localStorage.getItem("kcnhs_current_theme");
+          if (storedTheme) {
+            this.currentTheme = storedTheme;
+          } else {
+            // Pick section theme
+            const secObj = this.sections.find(s => s.id === this.currentStudentSection);
+            if (secObj) this.currentTheme = secObj.theme;
+          }
+
+          // Load Password
+          const storedPass = localStorage.getItem("mathmaster_teacher_pass");
+          if (storedPass) {
+            this.teacherPassword = storedPass;
+            this.isPasswordChanged = true;
+          }
+
+          const passChangedFlag = localStorage.getItem("mathmaster_pass_changed");
+          if (passChangedFlag === "true") {
+            this.isPasswordChanged = true;
+          }
+
+          // Load Stats
+          const storedStats = localStorage.getItem("mathmaster_stats");
+          if (storedStats) {
+            this.userStats = JSON.parse(storedStats);
+          }
+        } catch (e) {
+          console.error("Storage error:", e);
+          this.quizzes = [];
+          this.sections = [...DEFAULT_SECTIONS];
+        }
+
+        this.updatePasswordHintVisibility();
+      }
+
+      saveSectionsToStorage() {
+        localStorage.setItem("kcnhs_sections", JSON.stringify(this.sections));
+      }
+
+      saveQuizzesToStorage() {
+        localStorage.setItem("mathmaster_quizzes", JSON.stringify(this.quizzes));
+      }
+
+      saveStatsToStorage() {
+        localStorage.setItem("mathmaster_stats", JSON.stringify(this.userStats));
+      }
+
+      // ==============================
+      // THEME & DESIGN ENGINE
+      // ==============================
+      openThemeModal() {
+        this.openModal('themeModal');
+        this.updateThemeSwatchesUI();
+      }
+
+      setTheme(themeName) {
+        this.currentTheme = themeName;
+        this.applyTheme(themeName);
+        localStorage.setItem("kcnhs_current_theme", themeName);
+        this.updateThemeSwatchesUI();
+        this.showToast(`Theme updated to ${themeName.replace('theme-', '').replace('-', ' ')}`, 'success');
+      }
+
+      applyTheme(themeName) {
+        document.body.className = `${themeName} ${this.isProctoringActive ? 'quiz-active-mode' : ''}`;
+      }
+
+      updateThemeSwatchesUI() {
+        const cards = document.querySelectorAll('.theme-card');
+        cards.forEach(card => {
+          const fn = card.getAttribute('onclick');
+          if (fn && fn.includes(this.currentTheme)) {
+            card.classList.add('active');
+          } else {
+            card.classList.remove('active');
+          }
+        });
+      }
+
+      // ==============================
+      // CLASS SECTION MANAGER
+      // ==============================
+      populateSectionDropdowns() {
+        const studentSelect = document.getElementById('studentSectionSelect');
+        const filterSelect = document.getElementById('sectionFilter');
+        const builderSelect = document.getElementById('quizTargetSection');
+
+        if (studentSelect) {
+          studentSelect.innerHTML = this.sections.map(s => `
+            <option value="${s.id}" ${s.id === this.currentStudentSection ? 'selected' : ''}>${s.name}</option>
+          `).join('');
+        }
+
+        if (filterSelect) {
+          filterSelect.innerHTML = `<option value="all">All Sections</option>` + this.sections.map(s => `
+            <option value="${s.id}">${s.name}</option>
+          `).join('');
+        }
+
+        if (builderSelect) {
+          builderSelect.innerHTML = `<option value="all">All Sections (General)</option>` + this.sections.map(s => `
+            <option value="${s.id}">${s.name}</option>
+          `).join('');
+        }
+
+        this.updateSectionHeadersUI();
+      }
+
+      openChangeSectionModal() {
+        this.openModal('sectionChooserModal');
+      }
+
+      onStudentSectionChange(secId) {
+        this.currentStudentSection = secId;
+        localStorage.setItem("kcnhs_current_section", secId);
+
+        const secObj = this.sections.find(s => s.id === secId);
+        if (secObj && secObj.theme) {
+          this.setTheme(secObj.theme);
+        }
+
+        this.updateSectionHeadersUI();
+        this.renderDashboard();
+        this.showToast(`Class section set to: ${secObj ? secObj.name : secId}`, 'info');
+      }
+
+      updateSectionHeadersUI() {
+        const secObj = this.sections.find(s => s.id === this.currentStudentSection) || { name: "General KCNHS" };
+        const navSec = document.getElementById('navSectionName');
+        const dashTitle = document.getElementById('dashSectionTitle');
+        if (navSec) navSec.textContent = secObj.name;
+        if (dashTitle) dashTitle.textContent = `Class: ${secObj.name}`;
+      }
+
+      openCreateSectionModal() {
+        document.getElementById('newSectionNameInput').value = '';
+        this.openModal('createSectionModal');
+      }
+
+      handleCreateSectionSubmit(e) {
+        e.preventDefault();
+        const nameInput = document.getElementById('newSectionNameInput');
+        const themeSelect = document.getElementById('newSectionThemeSelect');
+        const name = nameInput.value.trim();
+        const theme = themeSelect.value;
+
+        if (!name) return;
+
+        const id = 'sec-' + Date.now();
+        this.sections.push({
+          id: id,
+          name: name,
+          theme: theme,
+          badgeColor: theme === 'theme-kcnhs-green' ? '#10b981' : (theme === 'theme-gold-heritage' ? '#f59e0b' : '#3b82f6')
+        });
+
+        this.saveSectionsToStorage();
+        this.populateSectionDropdowns();
+        this.renderTeacherSectionManager();
+        this.closeModal('createSectionModal');
+        this.showToast(`Section "${name}" created with layout!`, 'success');
+      }
+
+      renderTeacherSectionManager() {
+        const container = document.getElementById('sectionLayoutCardsList');
+        if (!container) return;
+
+        container.innerHTML = '';
+        if (this.sections.length === 0) {
+          container.innerHTML = '<div style="color:var(--text-muted); grid-column:1/-1;">No sections created yet. Click "Create New Section" above.</div>';
+          return;
+        }
+
+        this.sections.forEach(sec => {
+          const card = document.createElement('div');
+          card.style.background = 'rgba(15, 23, 42, 0.75)';
+          card.style.border = '1.5px solid var(--border-color)';
+          card.style.borderRadius = 'var(--radius-md)';
+          card.style.padding = '1.1rem';
+          card.style.display = 'flex';
+          card.style.flexDirection = 'column';
+          card.style.justifyContent = 'space-between';
+
+          card.innerHTML = `
+            <div>
+              <div style="font-weight:700; font-size:1rem; margin-bottom:0.75rem; display:flex; justify-content:space-between; align-items:center; gap:0.5rem;">
+                <span><i class="fa-solid fa-users-rectangle" style="color:var(--accent);"></i> ${sec.name}</span>
+                <button class="btn btn-outline btn-sm" style="color:#f87171; border-color:rgba(239,68,68,0.3); padding:0.25rem 0.55rem;" onclick="app.deleteSection('${sec.id}')" title="Delete Section">
+                  <i class="fa-solid fa-trash"></i> Delete
+                </button>
+              </div>
+              <div class="form-group" style="margin-bottom:0.5rem;">
+                <label style="font-size:0.75rem; font-weight:600;">Layout Color & Theme</label>
+                <select class="form-control" style="font-size:0.82rem; padding:0.45rem 0.7rem;" onchange="app.updateSectionTheme('${sec.id}', this.value)">
+                  <option value="theme-kcnhs-green" ${sec.theme === 'theme-kcnhs-green' ? 'selected' : ''}>Emerald Gold (Green)</option>
+                  <option value="theme-gold-heritage" ${sec.theme === 'theme-gold-heritage' ? 'selected' : ''}>Golden Heritage (Gold/Amber)</option>
+                  <option value="theme-royal-blue" ${sec.theme === 'theme-royal-blue' ? 'selected' : ''}>Mt. Apo Royal (Blue/Pink)</option>
+                  <option value="theme-cyber-indigo" ${sec.theme === 'theme-cyber-indigo' ? 'selected' : ''}>Neon Cyber (Indigo)</option>
+                  <option value="theme-ruby-crimson" ${sec.theme === 'theme-ruby-crimson' ? 'selected' : ''}>Torch Crimson (Ruby Red)</option>
+                  <option value="theme-dark-obsidian" ${sec.theme === 'theme-dark-obsidian' ? 'selected' : ''}>Dark Obsidian (Dark Slate)</option>
+                </select>
+              </div>
+            </div>
+            <div style="margin-top:0.6rem; display:flex; justify-content:flex-end;">
+              <button class="btn btn-outline btn-sm" style="font-size:0.72rem; padding:0.25rem 0.6rem;" onclick="app.previewSectionTheme('${sec.theme}')">
+                <i class="fa-solid fa-eye"></i> Preview Layout
+              </button>
+            </div>
+          `;
+          container.appendChild(card);
+        });
+      }
+
+      previewSectionTheme(themeName) {
+        this.setTheme(themeName);
+        this.showToast('Previewing section layout theme...', 'info');
+      }
+
+      updateSectionTheme(secId, newTheme) {
+        const sec = this.sections.find(s => s.id === secId);
+        if (sec) {
+          sec.theme = newTheme;
+          this.saveSectionsToStorage();
+          if (this.currentStudentSection === secId) {
+            this.setTheme(newTheme);
+          }
+          this.showToast(`Updated theme for ${sec.name}`, 'success');
+        }
+      }
+
+      deleteSection(secId) {
+        const sec = this.sections.find(s => s.id === secId);
+        const name = sec ? sec.name : 'this section';
+
+        if (this.sections.length <= 1) {
+          this.showToast('You must keep at least one section.', 'warning');
+          return;
+        }
+        if (!confirm(`Are you sure you want to delete section "${name}"?`)) return;
+
+        this.sections = this.sections.filter(s => s.id !== secId);
+        if (this.currentStudentSection === secId) {
+          this.currentStudentSection = this.sections[0].id;
+        }
+        this.saveSectionsToStorage();
+        this.populateSectionDropdowns();
+        this.renderTeacherSectionManager();
+        this.renderDashboard();
+        this.showToast(`Section "${name}" deleted.`, 'info');
+      }
+
+      updatePasswordHintVisibility() {
+        const hint = document.getElementById('defaultPasswordHint');
+        if (hint) {
+          hint.style.display = this.isPasswordChanged ? 'none' : 'block';
+        }
+      }
+
+      // VIEW SWITCHER
+      showView(viewId) {
+        document.querySelectorAll('.view-section').forEach(sec => sec.classList.remove('active'));
+        const target = document.getElementById(viewId);
+        if (target) {
+          target.classList.add('active');
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+      }
+
+      showDashboard() {
+        this.stopProctoring();
+        if (this.timerInterval) clearInterval(this.timerInterval);
+        this.renderDashboard();
+        this.showView('dashboardView');
+      }
+
+      // DASHBOARD RENDERING
+      renderDashboard() {
+        const recentContainer = document.getElementById('recentQuizzesGrid');
+        const recentBadge = document.getElementById('recentBadgeCount');
+
+        document.getElementById('statTotalQuizzes').textContent = this.quizzes.length;
+        this.updateUserStatsDisplay();
+
+        const sortedQuizzes = [...this.quizzes].sort((a, b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0));
+
+        const recentQuizzes = sortedQuizzes.slice(0, 3);
+        recentContainer.innerHTML = '';
+        if (recentQuizzes.length === 0) {
+          recentBadge.textContent = '0 Quizzes';
+          recentContainer.innerHTML = `
+            <div class="empty-state">
+              <i class="fa-solid fa-layer-group"></i>
+              <h4>No Quizzes Published Yet for KCNHS</h4>
+              <p>No tests created yet. Log in to the Teacher Portal to add quizzes for your class section!</p>
+              <button class="btn btn-accent btn-sm" onclick="app.openTeacherAuthModal()">
+                <i class="fa-solid fa-plus"></i> Create Quiz Now
+              </button>
+            </div>
+          `;
+        } else {
+          recentBadge.textContent = `${recentQuizzes.length} New`;
+          recentQuizzes.forEach(quiz => {
+            recentContainer.appendChild(this.createQuizCard(quiz, true));
+          });
+        }
+
+        this.handleFilterChange();
+      }
+
+      createQuizCard(quiz, isRecentSection = false) {
+        const card = document.createElement('div');
+        card.className = 'quiz-card';
+
+        const diffClass = quiz.difficulty === 'Easy' ? 'diff-easy' : (quiz.difficulty === 'Medium' ? 'diff-medium' : 'diff-hard');
+        const timeAgo = this.formatTimeAgo(quiz.createdAt);
+
+        // Section name
+        const secObj = this.sections.find(s => s.id === quiz.targetSection);
+        const sectionLabel = secObj ? secObj.name : (quiz.targetSection === 'all' ? 'All Sections' : 'General');
+
+        card.innerHTML = `
+          <div>
+            <div class="card-top">
+              <div class="badge-group">
+                <span class="badge badge-category">${quiz.category || 'General'}</span>
+                <span class="badge badge-section-tag"><i class="fa-solid fa-users-rectangle"></i> ${sectionLabel}</span>
+                <span class="badge-difficulty ${diffClass}">${quiz.difficulty}</span>
+                ${isRecentSection ? '<span class="badge badge-new"><i class="fa-solid fa-sparkles"></i> New</span>' : ''}
+              </div>
+            </div>
+            <h4>${quiz.title}</h4>
+            <p class="description">${quiz.description || 'Test your understanding with this official KCNHS assessment.'}</p>
+          </div>
+
+          <div>
+            <div class="card-meta">
+              <span><i class="fa-regular fa-circle-question"></i> ${quiz.questions.length} Questions</span>
+              <span><i class="fa-regular fa-clock"></i> ${quiz.timeLimit > 0 ? Math.round(quiz.timeLimit / 60) + ' min' : 'Untimed'}</span>
+              <span><i class="fa-regular fa-calendar"></i> ${timeAgo}</span>
+            </div>
+            <div class="card-actions">
+              <button class="btn btn-primary btn-sm btn-main-action" onclick="app.startQuiz('${quiz.id}')">
+                <i class="fa-solid fa-play"></i> Start Quiz
+              </button>
+              ${this.isTeacherLoggedIn ? `
+                <button class="btn btn-outline btn-sm" onclick="app.editQuiz('${quiz.id}')" title="Edit Quiz">
+                  <i class="fa-solid fa-pen"></i>
+                </button>
+                <button class="btn btn-danger btn-sm" onclick="app.deleteQuiz('${quiz.id}')" title="Delete Quiz">
+                  <i class="fa-solid fa-trash"></i>
+                </button>
+              ` : `
+                <button class="btn btn-danger btn-sm" onclick="app.requestDeleteQuiz('${quiz.id}')" title="Delete Quiz (Teacher Access)">
+                  <i class="fa-solid fa-trash"></i>
+                </button>
+              `}
+            </div>
+          </div>
+        `;
+        return card;
+      }
+
+      handleFilterChange() {
+        const query = document.getElementById('searchInput').value.toLowerCase().trim();
+        const section = document.getElementById('sectionFilter').value;
+        const category = document.getElementById('categoryFilter').value;
+        const difficulty = document.getElementById('difficultyFilter').value;
+        const allContainer = document.getElementById('allQuizzesGrid');
+
+        if (this.quizzes.length === 0) {
+          allContainer.innerHTML = `
+            <div class="empty-state">
+              <i class="fa-solid fa-clipboard-question"></i>
+              <h4>No Quizzes Available</h4>
+              <p>No tests have been created yet. Teachers can publish tests in the Teacher Studio.</p>
+              <button class="btn btn-accent btn-sm" onclick="app.openTeacherAuthModal()">
+                <i class="fa-solid fa-plus"></i> Add a Quiz
+              </button>
+            </div>
+          `;
+          return;
+        }
+
+        const filtered = this.quizzes.filter(q => {
+          const matchQuery = q.title.toLowerCase().includes(query) || (q.description && q.description.toLowerCase().includes(query));
+          const matchSection = section === 'all' || q.targetSection === 'all' || q.targetSection === section;
+          const matchCategory = category === 'all' || q.category === category;
+          const matchDifficulty = difficulty === 'all' || q.difficulty === difficulty;
+          return matchQuery && matchSection && matchCategory && matchDifficulty;
+        });
+
+        allContainer.innerHTML = '';
+        if (filtered.length === 0) {
+          allContainer.innerHTML = `
+            <div class="empty-state">
+              <i class="fa-solid fa-magnifying-glass"></i>
+              <h4>No Matching Quizzes for this Filter</h4>
+              <p>Try selecting "All Sections" or clearing your search query.</p>
+            </div>
+          `;
+        } else {
+          filtered.forEach(quiz => {
+            allContainer.appendChild(this.createQuizCard(quiz, false));
+          });
+        }
+      }
+
+      formatTimeAgo(dateStr) {
+        if (!dateStr) return 'Recently';
+        const date = new Date(dateStr);
+        const diffMs = Date.now() - date.getTime();
+        const diffMins = Math.floor(diffMs / (1000 * 60));
+        const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
+        const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+
+        if (diffMins < 1) return 'Just now';
+        if (diffMins < 60) return `${diffMins}m ago`;
+        if (diffHours < 24) return `${diffHours}h ago`;
+        if (diffDays === 1) return 'Yesterday';
+        if (diffDays < 7) return `${diffDays}d ago`;
+        return date.toLocaleDateString();
+      }
+
+      updateUserStatsDisplay() {
+        const completedEl = document.getElementById('statCompletedQuizzes');
+        const avgEl = document.getElementById('statAvgScore');
+        if (completedEl) completedEl.textContent = this.userStats.completed;
+        if (avgEl) {
+          if (this.userStats.totalPossible > 0) {
+            const avg = Math.round((this.userStats.totalScore / this.userStats.totalPossible) * 100);
+            avgEl.textContent = `${avg}%`;
+          } else {
+            avgEl.textContent = '--';
+          }
+        }
+      }
+
+      // TEACHER AUTHENTICATION & PORTAL
+      handleTeacherNavClick() {
+        if (this.isTeacherLoggedIn) {
+          this.openTeacherDashboard();
+        } else {
+          this.openTeacherAuthModal();
+        }
+      }
+
+      openTeacherAuthModal() {
+        if (this.isTeacherLoggedIn) {
+          this.openTeacherDashboard();
+          return;
+        }
+        document.getElementById('teacherPasswordInput').value = '';
+        this.updatePasswordHintVisibility();
+        this.openModal('teacherAuthModal');
+      }
+
+      verifyTeacherPassword(e) {
+        e.preventDefault();
+        const inputPass = document.getElementById('teacherPasswordInput').value;
+        if (inputPass === this.teacherPassword) {
+          this.isTeacherLoggedIn = true;
+          this.closeModal('teacherAuthModal');
+          this.updateTeacherUI();
+          this.showToast('Teacher Mode unlocked successfully!', 'success');
+          this.openTeacherDashboard();
+        } else {
+          this.showToast('Incorrect password. Please try again.', 'danger');
+        }
+      }
+
+      logoutTeacher() {
+        this.isTeacherLoggedIn = false;
+        this.updateTeacherUI();
+        this.showToast('Logged out of Teacher Mode.', 'info');
+        this.showDashboard();
+      }
+
+      updateTeacherUI() {
+        const badge = document.getElementById('teacherActiveBadge');
+        const btnText = document.getElementById('teacherBtnText');
+        if (this.isTeacherLoggedIn) {
+          badge.style.display = 'inline-flex';
+          btnText.textContent = 'Teacher Studio';
+        } else {
+          badge.style.display = 'none';
+          btnText.textContent = 'Teacher Portal';
+        }
+      }
+
+      openTeacherDashboard() {
+        this.showView('teacherView');
+        this.renderTeacherSectionManager();
+        this.renderTeacherQuizList();
+        if (document.getElementById('questionsContainer').children.length === 0) {
+          this.resetBuilderForm();
+        }
+      }
+
+      showChangePasswordModal() {
+        document.getElementById('currentPasswordInput').value = '';
+        document.getElementById('newPasswordInput').value = '';
+        this.openModal('changePasswordModal');
+      }
+
+      updateTeacherPassword(e) {
+        e.preventDefault();
+        const curPass = document.getElementById('currentPasswordInput').value;
+        const newPass = document.getElementById('newPasswordInput').value;
+
+        if (curPass !== this.teacherPassword) {
+          this.showToast('Current password does not match.', 'danger');
+          return;
+        }
+
+        this.teacherPassword = newPass;
+        this.isPasswordChanged = true;
+        localStorage.setItem("mathmaster_teacher_pass", newPass);
+        localStorage.setItem("mathmaster_pass_changed", "true");
+        this.updatePasswordHintVisibility();
+
+        this.closeModal('changePasswordModal');
+        this.showToast('Teacher password updated successfully!', 'success');
+      }
+
+      // TEACHER QUIZ BUILDER LOGIC
+      resetBuilderForm() {
+        document.getElementById('quizBuilderForm').reset();
+        document.getElementById('builderQuizId').value = '';
+        document.getElementById('builderFormTitle').innerHTML = '<i class="fa-solid fa-pen-to-square" style="color:var(--accent);"></i> Create New Quiz';
+        document.getElementById('questionsContainer').innerHTML = '';
+        this.addQuestionBlock();
+      }
+
+      addQuestionBlock(data = null) {
+        const container = document.getElementById('questionsContainer');
+        const qIndex = container.children.length;
+        const block = document.createElement('div');
+        block.className = 'question-builder-card';
+        block.id = `qBlock_${qIndex}`;
+
+        const questionText = data ? data.question : '';
+        const formulaText = data ? (data.formula || '') : '';
+        const explanationText = data ? (data.explanation || '') : '';
+        const options = data ? data.options : ['', '', '', ''];
+        const correctIdx = data ? data.correctAnswer : 0;
+
+        block.innerHTML = `
+          <div class="question-header">
+            <h5 style="color: var(--primary-light); font-size: 0.95rem;"><i class="fa-regular fa-circle-dot"></i> Question ${qIndex + 1}</h5>
+            <button type="button" class="btn btn-outline btn-sm" style="color:#f87171;" onclick="app.removeQuestionBlock(${qIndex})">
+              <i class="fa-solid fa-trash-can"></i> Remove
+            </button>
+          </div>
+
+          <div class="form-group">
+            <label>Question Text *</label>
+            <input type="text" class="form-control q-text" placeholder="e.g. Solve for x in: 3x + 12 = 27" value="${this.escapeHtml(questionText)}" required>
+          </div>
+
+          <div class="form-group">
+            <label>Math Formula / Notation (Optional)</label>
+            <input type="text" class="form-control q-formula" placeholder="e.g. 3x + 12 = 27" value="${this.escapeHtml(formulaText)}">
+          </div>
+
+          <div class="form-group">
+            <label style="margin-bottom: 0.6rem;">Answer Options (Select radio for Correct Answer) *</label>
+            <div class="builder-options">
+              ${[0, 1, 2, 3].map(i => `
+                <div class="option-row">
+                  <input type="radio" name="correct_answer_${qIndex}" class="option-radio" value="${i}" ${i === correctIdx ? 'checked' : ''} required>
+                  <input type="text" class="form-control q-opt" placeholder="Option ${String.fromCharCode(65 + i)}" value="${this.escapeHtml(options[i] || '')}" required>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+
+          <div class="form-group" style="margin-bottom:0;">
+            <label>Explanation on Solution (Shown after quiz completion)</label>
+            <input type="text" class="form-control q-explanation" placeholder="e.g. Subtract 12 then divide by 3." value="${this.escapeHtml(explanationText)}">
+          </div>
+        `;
+
+        container.appendChild(block);
+        this.updateQuestionCount();
+      }
+
+      removeQuestionBlock(index) {
+        const container = document.getElementById('questionsContainer');
+        if (container.children.length <= 1) {
+          this.showToast('Quiz must have at least 1 question.', 'warning');
+          return;
+        }
+        const block = document.getElementById(`qBlock_${index}`);
+        if (block) block.remove();
+        this.reindexQuestionBlocks();
+      }
+
+      reindexQuestionBlocks() {
+        const container = document.getElementById('questionsContainer');
+        Array.from(container.children).forEach((block, idx) => {
+          block.id = `qBlock_${idx}`;
+          const title = block.querySelector('h5');
+          if (title) title.innerHTML = `<i class="fa-regular fa-circle-dot"></i> Question ${idx + 1}`;
+
+          const removeBtn = block.querySelector('.question-header button');
+          if (removeBtn) removeBtn.setAttribute('onclick', `app.removeQuestionBlock(${idx})`);
+
+          const radios = block.querySelectorAll('.option-radio');
+          radios.forEach(radio => {
+            radio.name = `correct_answer_${idx}`;
+          });
+        });
+        this.updateQuestionCount();
+      }
+
+      updateQuestionCount() {
+        const count = document.getElementById('questionsContainer').children.length;
+        document.getElementById('questionCountDisplay').textContent = count;
+      }
+
+      saveQuiz(e) {
+        e.preventDefault();
+        const quizId = document.getElementById('builderQuizId').value || `quiz-${Date.now()}`;
+        const title = document.getElementById('quizTitle').value.trim();
+        const targetSection = document.getElementById('quizTargetSection').value;
+        const category = document.getElementById('quizCategory').value;
+        const difficulty = document.getElementById('quizDifficulty').value;
+        const timeLimit = parseInt(document.getElementById('quizTimeLimit').value) || 0;
+        const description = document.getElementById('quizDescription').value.trim();
+
+        const questionBlocks = document.querySelectorAll('.question-builder-card');
+        if (questionBlocks.length === 0) {
+          this.showToast('Please add at least one question.', 'warning');
+          return;
+        }
+
+        const questions = [];
+        for (let i = 0; i < questionBlocks.length; i++) {
+          const block = questionBlocks[i];
+          const qText = block.querySelector('.q-text').value.trim();
+          const qFormula = block.querySelector('.q-formula').value.trim();
+          const qExplanation = block.querySelector('.q-explanation').value.trim();
+
+          const optInputs = block.querySelectorAll('.q-opt');
+          const options = Array.from(optInputs).map(inp => inp.value.trim());
+
+          const checkedRadio = block.querySelector('.option-radio:checked');
+          const correctAnswer = checkedRadio ? parseInt(checkedRadio.value) : 0;
+
+          if (!qText || options.some(opt => !opt)) {
+            this.showToast(`Please fill out all fields for Question ${i + 1}`, 'warning');
+            return;
+          }
+
+          questions.push({
+            question: qText,
+            formula: qFormula,
+            options: options,
+            correctAnswer: correctAnswer,
+            explanation: qExplanation
+          });
+        }
+
+        const existingIndex = this.quizzes.findIndex(q => q.id === quizId);
+        const quizData = {
+          id: quizId,
+          title,
+          targetSection,
+          category,
+          difficulty,
+          timeLimit,
+          description,
+          createdAt: existingIndex >= 0 ? this.quizzes[existingIndex].createdAt : new Date().toISOString(),
+          questions
+        };
+
+        if (existingIndex >= 0) {
+          this.quizzes[existingIndex] = quizData;
+          this.showToast(`Quiz "${title}" updated successfully!`, 'success');
+        } else {
+          this.quizzes.unshift(quizData);
+          this.showToast(`New Quiz "${title}" created and published!`, 'success');
+        }
+
+        this.saveQuizzesToStorage();
+        this.renderTeacherQuizList();
+        this.resetBuilderForm();
+      }
+
+      editQuiz(quizId) {
+        const quiz = this.quizzes.find(q => q.id === quizId);
+        if (!quiz) return;
+
+        if (!this.isTeacherLoggedIn) {
+          this.openTeacherAuthModal();
+          return;
+        }
+
+        this.showView('teacherView');
+        document.getElementById('builderQuizId').value = quiz.id;
+        document.getElementById('quizTitle').value = quiz.title;
+        document.getElementById('quizTargetSection').value = quiz.targetSection || 'all';
+        document.getElementById('quizCategory').value = quiz.category;
+        document.getElementById('quizDifficulty').value = quiz.difficulty;
+        document.getElementById('quizTimeLimit').value = quiz.timeLimit || 0;
+        document.getElementById('quizDescription').value = quiz.description || '';
+        document.getElementById('builderFormTitle').innerHTML = `<i class="fa-solid fa-pen-to-square" style="color:var(--accent);"></i> Edit Quiz: ${quiz.title}`;
+
+        const container = document.getElementById('questionsContainer');
+        container.innerHTML = '';
+        quiz.questions.forEach(q => this.addQuestionBlock(q));
+
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+
+      requestDeleteQuiz(quizId) {
+        if (!this.isTeacherLoggedIn) {
+          this.openTeacherAuthModal();
+          return;
+        }
+        this.deleteQuiz(quizId);
+      }
+
+      deleteQuiz(quizId) {
+        const target = this.quizzes.find(q => q.id === quizId);
+        const quizName = target ? target.title : 'this quiz';
+        if (!confirm(`Are you sure you want to delete "${quizName}"?`)) return;
+
+        this.quizzes = this.quizzes.filter(q => q.id !== quizId);
+        this.saveQuizzesToStorage();
+        this.renderDashboard();
+        if (document.getElementById('teacherView').classList.contains('active')) {
+          this.renderTeacherQuizList();
+        }
+        this.showToast(`Quiz deleted.`, 'info');
+      }
+
+      deleteAllQuizzes() {
+        if (this.quizzes.length === 0) {
+          this.showToast('There are no quizzes to delete.', 'warning');
+          return;
+        }
+        if (!confirm('Are you sure you want to delete ALL quizzes? This cannot be undone.')) return;
+
+        this.quizzes = [];
+        this.saveQuizzesToStorage();
+        this.renderDashboard();
+        this.renderTeacherQuizList();
+        this.showToast('All quizzes have been removed.', 'info');
+      }
+
+      renderTeacherQuizList() {
+        const container = document.getElementById('teacherQuizList');
+        container.innerHTML = '';
+        if (this.quizzes.length === 0) {
+          container.innerHTML = `
+            <div class="empty-state">
+              <i class="fa-solid fa-folder-open"></i>
+              <h4>No Quizzes in KCNHS Library</h4>
+              <p>You haven't created any quizzes yet. Use the form above to build and publish your first quiz!</p>
+            </div>
+          `;
+          return;
+        }
+
+        this.quizzes.forEach(quiz => {
+          const card = document.createElement('div');
+          card.className = 'quiz-card';
+          const secObj = this.sections.find(s => s.id === quiz.targetSection);
+          const secName = secObj ? secObj.name : 'All Sections';
+
+          card.innerHTML = `
+            <div>
+              <div class="card-top">
+                <span class="badge badge-category">${quiz.category}</span>
+                <span class="badge badge-section-tag">${secName}</span>
+                <span class="badge-difficulty diff-${quiz.difficulty.toLowerCase()}">${quiz.difficulty}</span>
+              </div>
+              <h4>${quiz.title}</h4>
+              <p class="description">${quiz.description || ''}</p>
+            </div>
+            <div>
+              <div class="card-meta">
+                <span><i class="fa-regular fa-circle-question"></i> ${quiz.questions.length} Qs</span>
+                <span><i class="fa-regular fa-clock"></i> ${quiz.timeLimit}s</span>
+              </div>
+              <div class="card-actions">
+                <button class="btn btn-outline btn-sm" onclick="app.editQuiz('${quiz.id}')">
+                  <i class="fa-solid fa-pen"></i> Edit
+                </button>
+                <button class="btn btn-danger btn-sm" onclick="app.deleteQuiz('${quiz.id}')">
+                  <i class="fa-solid fa-trash"></i> Delete
+                </button>
+              </div>
+            </div>
+          `;
+          container.appendChild(card);
+        });
+      }
+
+      exportQuizzes() {
+        if (this.quizzes.length === 0) {
+          this.showToast('No quizzes available to export.', 'warning');
+          return;
+        }
+        const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(this.quizzes, null, 2));
+        const dlAnchor = document.createElement('a');
+        dlAnchor.setAttribute("href", dataStr);
+        dlAnchor.setAttribute("download", `kcnhs_quizzes_${Date.now()}.json`);
+        dlAnchor.click();
+        this.showToast('KCNHS Quiz backup exported as JSON!', 'success');
+      }
+
+      // ==========================================
+      // ADVANCED PROCTORING & ANTI-CHEAT SUITE
+      // ==========================================
+      setupGlobalSecurityListeners() {
+        // 1. Block Context Menus
+        document.addEventListener('contextmenu', (e) => {
+          if (this.isProctoringActive) {
+            e.preventDefault();
+            this.logAuditEvent('Context Menu Blocked', 'Right-click or long-press context menu attempt intercepted', 'warn');
+            this.showToast('Security Alert: Context menu is disabled during the test.', 'warning');
+          }
+        });
+
+        // 2. Disable Copy, Cut, and Paste
+        ['copy', 'cut', 'paste'].forEach(evt => {
+          document.addEventListener(evt, (e) => {
+            if (this.isProctoringActive) {
+              e.preventDefault();
+              this.logAuditEvent(`Clipboard Blocked (${evt.toUpperCase()})`, 'Attempted clipboard copy/cut/paste event intercepted', 'danger');
+              this.showToast(`Security Alert: ${evt.toUpperCase()} is strictly prohibited during test.`, 'danger');
+            }
+          });
+        });
+
+        // 3. Tab and App Switch Detection (Page Visibility API)
+        document.addEventListener('visibilitychange', () => {
+          if (!this.isProctoringActive) return;
+
+          if (document.hidden) {
+            this.leaveTimestamp = Date.now();
+            this.logAuditEvent('Tab / App Switch (Hidden)', 'Student switched tabs or minimized application', 'danger');
+            this.showAntiCheatWarning('Tab / App Switch Detected: You switched away from the quiz screen.');
+          } else {
+            let durationStr = '';
+            if (this.leaveTimestamp) {
+              const durationSec = Math.round((Date.now() - this.leaveTimestamp) / 1000);
+              durationStr = ` Away duration: ${durationSec}s`;
+              this.leaveTimestamp = null;
+            }
+            this.logAuditEvent('Page Restored (Visible)', `Student returned to test.${durationStr}`, 'info');
+          }
+        });
+
+        // 4. Window Blur Tracking — debounced to avoid noise from normal interactions
+        window.addEventListener('blur', () => {
+          if (!this.isProctoringActive || document.hidden) return;
+          // Short debounce: only log if focus doesn't immediately return
+          this._blurDebounce = setTimeout(() => {
+            if (!document.hidden && document.hasFocus && !document.hasFocus()) {
+              this.logAuditEvent('Window Focus Loss', 'Browser window lost focus (notification, overlay, or external app)', 'warn');
+            }
+          }, 600);
+        });
+        window.addEventListener('focus', () => {
+          if (this._blurDebounce) {
+            clearTimeout(this._blurDebounce);
+            this._blurDebounce = null;
+          }
+        });
+
+        // 5. Fullscreen Exit Detection — only flag AFTER fullscreen was confirmed active
+        document.addEventListener('fullscreenchange', () => {
+          if (!this.isProctoringActive) return;
+          if (document.fullscreenElement) {
+            // Fullscreen was entered — mark it as active
+            this.fullscreenActive = true;
+          } else if (this.fullscreenActive) {
+            // Fullscreen was genuinely exited by the student
+            this.fullscreenActive = false;
+            this.logAuditEvent('Fullscreen Exited', 'Student exited fullscreen mode during the proctored test', 'danger');
+            this.showAntiCheatWarning('Fullscreen Mode Exited: Please stay on the quiz screen. This has been logged.');
+          }
+          // If fullscreenActive is false and fullscreenElement is null,
+          // it means fullscreen was never entered (permission denied / not supported) — do nothing.
+        });
+
+        // 6. Device Orientation Tracking (Phone tilt / flip detection)
+        if (window.DeviceOrientationEvent) {
+          window.addEventListener('deviceorientation', (event) => {
+            if (!this.isProctoringActive) return;
+            const beta = Math.abs(event.beta || 0);
+            const gamma = Math.abs(event.gamma || 0);
+
+            if ((beta > 75 || gamma > 75) && !this.orientationCooldown) {
+              this.orientationCooldown = true;
+              this.logAuditEvent('Excessive Device Tilt', `Significant phone tilt/flip detected (β:${Math.round(beta)}°, γ:${Math.round(gamma)}°)`, 'warn');
+              setTimeout(() => { this.orientationCooldown = false; }, 8000);
+            }
+          });
+        }
+      }
+
+      async startProctoring() {
+        this.isProctoringActive = true;
+        this.auditLogs = [];
+        this.infractionCount = 0;
+        this.fullscreenActive = false;
+        this.updateInfractionDisplay();
+        document.body.classList.add('quiz-active-mode');
+
+        this.logAuditEvent('Quiz Initialized', 'Student started the proctored test session', 'info');
+
+        // Request Fullscreen — non-critical, failure is silently ignored
+        try {
+          if (document.documentElement.requestFullscreen) {
+            await document.documentElement.requestFullscreen().catch(() => { });
+          }
+        } catch (e) {
+          // Fullscreen not supported or user blocked it — no infraction logged
+        }
+      }
+
+      stopProctoring() {
+        this.isProctoringActive = false;
+        this.fullscreenActive = false;
+        document.body.classList.remove('quiz-active-mode');
+
+        if (this._blurDebounce) {
+          clearTimeout(this._blurDebounce);
+          this._blurDebounce = null;
+        }
+        if (document.fullscreenElement) {
+          document.exitFullscreen().catch(() => { });
+        }
+      }
+
+
+
+      logAuditEvent(eventType, details, severity = 'info') {
+        const timestamp = new Date().toLocaleTimeString();
+        if (severity === 'danger' || severity === 'warn') {
+          this.infractionCount++;
+          this.updateInfractionDisplay();
+        }
+        this.auditLogs.push({ timestamp, eventType, details, severity });
+      }
+
+      updateInfractionDisplay() {
+        const badge = document.getElementById('infractionBadge');
+        if (badge) {
+          badge.innerHTML = `<i class="fa-solid fa-triangle-exclamation"></i> ${this.infractionCount} Infractions`;
+          if (this.infractionCount > 0) {
+            badge.style.background = 'rgba(239, 68, 68, 0.25)';
+          }
+        }
+      }
+
+      showAntiCheatWarning(msg) {
+        const overlay = document.getElementById('antiCheatOverlay');
+        const msgEl = document.getElementById('antiCheatOverlayMsg');
+        if (overlay && msgEl) {
+          msgEl.textContent = `${msg} All infractions are timestamped and reviewed by the instructor.`;
+          overlay.classList.add('active');
+        }
+      }
+
+      resumeFromInfraction() {
+        const overlay = document.getElementById('antiCheatOverlay');
+        if (overlay) overlay.classList.remove('active');
+        // Attempt to re-enter fullscreen if it was previously active
+        if (this.fullscreenActive && !document.fullscreenElement && document.documentElement.requestFullscreen) {
+          document.documentElement.requestFullscreen().catch(() => { });
+        }
+      }
+
+      // QUIZ PLAYER ENGINE
+      showQuickQuiz() {
+        if (this.quizzes.length > 0) {
+          const rand = this.quizzes[Math.floor(Math.random() * this.quizzes.length)];
+          this.startQuiz(rand.id);
+        } else {
+          this.showToast('No quizzes created yet. Log into Teacher Portal to create one!', 'warning');
+        }
+      }
+
+      startQuiz(quizId) {
+        const quiz = this.quizzes.find(q => q.id === quizId);
+        if (!quiz || !quiz.questions || quiz.questions.length === 0) {
+          this.showToast('This quiz has no questions.', 'warning');
+          return;
+        }
+
+        // Always ask for name before starting
+        this._pendingQuizId = quizId;
+        const nameInput = document.getElementById('studentNameInput');
+        if (nameInput) nameInput.value = this.studentName || '';
+        this.openModal('studentNameModal');
+        // Focus the input after modal opens
+        setTimeout(() => { if (nameInput) nameInput.focus(); }, 120);
+      }
+
+      beginQuizWithName(e) {
+        e.preventDefault();
+        const nameInput = document.getElementById('studentNameInput');
+        const name = nameInput ? nameInput.value.trim() : '';
+        if (!name) return;
+
+        this.studentName = name;
+        localStorage.setItem('kcnhs_student_name', name);
+        this.closeModal('studentNameModal');
+
+        const quizId = this._pendingQuizId;
+        this._pendingQuizId = null;
+        const quiz = this.quizzes.find(q => q.id === quizId);
+        if (!quiz) return;
+
+        this.currentQuiz = quiz;
+        this.currentQuestionIndex = 0;
+        this.userAnswers = new Array(quiz.questions.length).fill(null);
+        this.timeRemaining = quiz.timeLimit || 0;
+
+        document.getElementById('playerQuizTitle').textContent = quiz.title;
+        document.getElementById('playerCategoryBadge').textContent = quiz.category;
+
+        const secObj = this.sections.find(s => s.id === quiz.targetSection);
+        document.getElementById('playerSectionBadge').textContent = secObj ? secObj.name : 'All Sections';
+
+        // Show student name chip in player bar
+        const nameChip = document.getElementById('playerStudentNameChip');
+        if (nameChip) {
+          nameChip.textContent = name;
+          nameChip.parentElement.style.display = 'flex';
+        }
+
+        this.showView('quizPlayerView');
+        this.renderQuestion();
+        this.startTimer();
+        this.startProctoring();
+      }
+
+      renderQuestion() {
+        const q = this.currentQuiz.questions[this.currentQuestionIndex];
+        const total = this.currentQuiz.questions.length;
+
+        const progressPct = ((this.currentQuestionIndex) / total) * 100;
+        document.getElementById('playerProgressBar').style.width = `${progressPct}%`;
+        document.getElementById('playerQuestionTag').textContent = `Question ${this.currentQuestionIndex + 1} of ${total}`;
+
+        document.getElementById('playerQuestionText').textContent = q.question;
+        const formulaBox = document.getElementById('playerFormulaContainer');
+        if (q.formula && q.formula.trim() !== '') {
+          formulaBox.style.display = 'inline-block';
+          formulaBox.textContent = q.formula;
+        } else {
+          formulaBox.style.display = 'none';
+        }
+
+        const optionsList = document.getElementById('playerOptionsList');
+        optionsList.innerHTML = '';
+        const selectedAnswer = this.userAnswers[this.currentQuestionIndex];
+
+        q.options.forEach((optText, idx) => {
+          const btn = document.createElement('button');
+          btn.className = `option-btn ${selectedAnswer === idx ? 'selected' : ''}`;
+          btn.onclick = () => this.selectAnswer(idx);
+          btn.innerHTML = `
+            <div class="option-letter">${String.fromCharCode(65 + idx)}</div>
+            <span>${optText}</span>
+          `;
+          optionsList.appendChild(btn);
+        });
+
+        const prevBtn = document.getElementById('playerPrevBtn');
+        const nextBtn = document.getElementById('playerNextBtn');
+
+        prevBtn.style.visibility = this.currentQuestionIndex > 0 ? 'visible' : 'hidden';
+
+        if (this.currentQuestionIndex === total - 1) {
+          nextBtn.innerHTML = 'Submit Quiz <i class="fa-solid fa-flag-checkered"></i>';
+          nextBtn.className = 'btn btn-accent';
+        } else {
+          nextBtn.innerHTML = 'Next <i class="fa-solid fa-arrow-right"></i>';
+          nextBtn.className = 'btn btn-primary';
+        }
+      }
+
+      selectAnswer(index) {
+        this.userAnswers[this.currentQuestionIndex] = index;
+        this.renderQuestion();
+      }
+
+      nextQuestion() {
+        if (this.currentQuestionIndex < this.currentQuiz.questions.length - 1) {
+          this.currentQuestionIndex++;
+          this.renderQuestion();
+        } else {
+          this.finishQuiz();
+        }
+      }
+
+      prevQuestion() {
+        if (this.currentQuestionIndex > 0) {
+          this.currentQuestionIndex--;
+          this.renderQuestion();
+        }
+      }
+
+      startTimer() {
+        if (this.timerInterval) clearInterval(this.timerInterval);
+
+        const timerDisplay = document.getElementById('playerTimerDisplay');
+        const timerText = document.getElementById('playerTimerText');
+
+        if (this.timeRemaining <= 0) {
+          timerText.textContent = "No Limit";
+          timerDisplay.className = "timer-pill normal";
+          return;
+        }
+
+        const updateDisplay = () => {
+          const mins = Math.floor(this.timeRemaining / 60);
+          const secs = this.timeRemaining % 60;
+          timerText.textContent = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+
+          if (this.timeRemaining <= 30) {
+            timerDisplay.className = "timer-pill";
+          } else {
+            timerDisplay.className = "timer-pill normal";
+          }
+        };
+
+        updateDisplay();
+
+        this.timerInterval = setInterval(() => {
+          this.timeRemaining--;
+          updateDisplay();
+
+          if (this.timeRemaining <= 0) {
+            clearInterval(this.timerInterval);
+            this.showToast("Time's up! Submitting quiz...", 'warning');
+            this.finishQuiz();
+          }
+        }, 1000);
+      }
+
+      finishQuiz() {
+        if (this.timerInterval) clearInterval(this.timerInterval);
+        this.stopProctoring();
+
+        let correctCount = 0;
+        const total = this.currentQuiz.questions.length;
+
+        this.currentQuiz.questions.forEach((q, idx) => {
+          if (this.userAnswers[idx] === q.correctAnswer) {
+            correctCount++;
+          }
+        });
+
+        const percentage = Math.round((correctCount / total) * 100);
+
+        this.userStats.completed += 1;
+        this.userStats.totalScore += correctCount;
+        this.userStats.totalPossible += total;
+        this.saveStatsToStorage();
+
+        document.getElementById('resultScore').textContent = `${correctCount}/${total}`;
+        document.getElementById('resultPercentage').textContent = `${percentage}%`;
+
+        // Show student name on results
+        const resultBanner = document.getElementById('resultStudentBanner');
+        const resultName = document.getElementById('resultStudentName');
+        if (this.studentName && resultBanner && resultName) {
+          resultName.textContent = this.studentName;
+          resultBanner.style.display = 'flex';
+        } else if (resultBanner) {
+          resultBanner.style.display = 'none';
+        }
+
+        const titleEl = document.getElementById('resultTitle');
+        const feedbackEl = document.getElementById('resultFeedback');
+
+        if (percentage >= 80) {
+          titleEl.textContent = '🌟 Outstanding Mastery!';
+          feedbackEl.textContent = 'Exceptional job! You scored at the top tier for this KCNHS assessment.';
+          if (window.confetti) {
+            window.confetti({ particleCount: 120, spread: 70, origin: { y: 0.6 } });
+          }
+        } else if (percentage >= 50) {
+          titleEl.textContent = '👍 Good Effort!';
+          feedbackEl.textContent = 'Solid performance. Review the explanations and audit logs below.';
+        } else {
+          titleEl.textContent = '📚 Keep Practicing!';
+          feedbackEl.textContent = 'Check out the step-by-step solutions below and retake the quiz.';
+        }
+
+        // Render Integrity Audit Logs
+        const auditLogBody = document.getElementById('auditLogBody');
+        const auditSummaryBadge = document.getElementById('auditSummaryBadge');
+        auditLogBody.innerHTML = '';
+
+        if (this.infractionCount === 0) {
+          auditSummaryBadge.className = 'audit-tag audit-tag-info';
+          auditSummaryBadge.textContent = 'Clean Record (0 Infractions)';
+        } else {
+          auditSummaryBadge.className = 'audit-tag audit-tag-danger';
+          auditSummaryBadge.textContent = `${this.infractionCount} Infraction(s) Logged`;
+        }
+
+        this.auditLogs.forEach(log => {
+          const tr = document.createElement('tr');
+          const tagClass = log.severity === 'danger' ? 'audit-tag-danger' : (log.severity === 'warn' ? 'audit-tag-warn' : 'audit-tag-info');
+          tr.innerHTML = `
+            <td style="font-family:'JetBrains Mono';">${log.timestamp}</td>
+            <td><span class="audit-tag ${tagClass}">${log.eventType}</span></td>
+            <td>${log.details}</td>
+          `;
+          auditLogBody.appendChild(tr);
+        });
+
+
+
+        // Render question breakdown review
+        const reviewContainer = document.getElementById('reviewItemsContainer');
+        reviewContainer.innerHTML = '';
+
+        this.currentQuiz.questions.forEach((q, idx) => {
+          const userAns = this.userAnswers[idx];
+          const isCorrect = userAns === q.correctAnswer;
+          const reviewItem = document.createElement('div');
+          reviewItem.className = `review-item ${isCorrect ? 'correct' : 'incorrect'}`;
+
+          const userAnsText = userAns !== null ? q.options[userAns] : 'Not answered';
+          const correctAnsText = q.options[q.correctAnswer];
+
+          reviewItem.innerHTML = `
+            <div style="font-weight:700; margin-bottom: 0.5rem; font-size: 1.05rem;">
+              ${idx + 1}. ${q.question}
+            </div>
+            ${q.formula ? `<div class="math-formula" style="margin-bottom:0.75rem; font-size:0.9rem;">${q.formula}</div>` : ''}
+            <div style="display:flex; flex-direction:column; gap:0.25rem; font-size: 0.9rem; margin-bottom: 0.5rem;">
+              <div><strong>Your answer:</strong> <span style="color:${isCorrect ? 'var(--success)' : 'var(--danger)'}">${userAnsText} ${isCorrect ? '✓' : '✗'}</span></div>
+              ${!isCorrect ? `<div><strong>Correct answer:</strong> <span style="color:var(--success)">${correctAnsText}</span></div>` : ''}
+            </div>
+            ${q.explanation ? `<div style="font-size: 0.85rem; color: var(--text-muted); background: rgba(0,0,0,0.25); padding: 0.6rem; border-radius: 6px; margin-top: 0.5rem;"><i class="fa-solid fa-lightbulb" style="color:var(--warning);"></i> <strong>Explanation:</strong> ${q.explanation}</div>` : ''}
+          `;
+          reviewContainer.appendChild(reviewItem);
+        });
+
+        this.showView('resultsView');
+      }
+
+      retakeCurrentQuiz() {
+        if (this.currentQuiz) {
+          this.startQuiz(this.currentQuiz.id);
+        }
+      }
+
+      confirmExitQuiz() {
+        if (confirm('Are you sure you want to exit? Your quiz progress will be lost.')) {
+          this.stopProctoring();
+          if (this.timerInterval) clearInterval(this.timerInterval);
+          this.showDashboard();
+        }
+      }
+
+      // MODALS & UTILS
+      openModal(modalId) {
+        const modal = document.getElementById(modalId);
+        if (modal) modal.classList.add('active');
+      }
+
+      closeModal(modalId) {
+        const modal = document.getElementById(modalId);
+        if (modal) modal.classList.remove('active');
+      }
+
+      showToast(message, type = 'info') {
+        const container = document.getElementById('toastContainer');
+        const toast = document.createElement('div');
+        toast.className = 'toast';
+
+        let icon = 'info';
+        if (type === 'success') icon = 'circle-check';
+        if (type === 'danger') icon = 'circle-xmark';
+        if (type === 'warning') icon = 'triangle-exclamation';
+
+        toast.innerHTML = `
+          <i class="fa-solid fa-${icon}" style="color:${type === 'success' ? '#34d399' : type === 'danger' ? '#f87171' : '#818cf8'}"></i>
+          <span>${message}</span>
+        `;
+        container.appendChild(toast);
+
+        setTimeout(() => {
+          toast.style.opacity = '0';
+          toast.style.transform = 'translateY(20px)';
+          toast.style.transition = 'all 0.3s ease';
+          setTimeout(() => toast.remove(), 300);
+        }, 3500);
+      }
+
+      escapeHtml(str) {
+        if (!str) return '';
+        return String(str)
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;')
+          .replace(/'/g, '&#039;');
+      }
+    }
+
+    // Instantiate App when DOM is loaded
+    let app;
+    document.addEventListener('DOMContentLoaded', () => {
+      app = new QuizApp();
+    });
+  </script>
+</body>
+
+</html>
